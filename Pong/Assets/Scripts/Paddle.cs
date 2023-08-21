@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 class Paddle : MonoBehaviour
 {
@@ -15,15 +16,26 @@ class Paddle : MonoBehaviour
 
     void Update()
     {
+
+        if (gameObject.CompareTag("player one"))
+        {
+            MovePaddle(KeyCode.W, KeyCode.S);
+        } else if (gameObject.CompareTag("player two"))
+        {
+            MovePaddle(KeyCode.UpArrow, KeyCode.DownArrow);
+        }
+    }
+
+    void MovePaddle(KeyCode upKey, KeyCode downKey)
+    {
         Vector2 position = transform.position;
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(upKey))
         {
-            Debug.Log("The up key is being pressed");
             position.y += Time.deltaTime * speed;
-        } else if (Input.GetKey(KeyCode.S))
+        }
+        else if (Input.GetKey(downKey))
         {
-            Debug.Log("The down key is being pressed");
             position.y -= Time.deltaTime * speed;
         }
 
