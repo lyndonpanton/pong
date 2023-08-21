@@ -4,16 +4,18 @@ using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-class Paddle : MonoBehaviour
+public class Paddle : MonoBehaviour
 {
     public const int speed = 5;
     public Rigidbody2D rb2d;
 
+    // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
+    // Update is called once per frame
     void Update()
     {
 
