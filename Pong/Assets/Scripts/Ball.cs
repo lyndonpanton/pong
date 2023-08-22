@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Ball : MonoBehaviour
 {
+    [SerializeField]
+    public GameObject ballPrefab;
+
     public Rigidbody2D rb2d;
-    public const int speed = 8;
+    public const int speed = 3;
     // Start is called before the first frame update
     void Start()
     {
-        float xDirection = Random.Range(0, Mathf.PI);
+        float xDirection = 1;
         float yDirection = Random.Range(0, Mathf.PI);
 
         if (Random.Range(0, 2) == 0)
@@ -30,12 +33,30 @@ public class Ball : MonoBehaviour
         //    ForceMode2D.Impulse
         //);
 
-        rb2d.velocity = Random.onUnitSphere * speed;
+        //rb2d.velocity = Random.onUnitSphere * speed;
+        //rb2d.velocity = Random.onUnitSphere * speed * new Vector2 (xDirection, yDirection);
+        rb2d.velocity = new Vector2(xDirection, yDirection) * 3;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        float xVelocity = rb2d.velocity.x;
+        Vector2 newVelocity = new Vector2(xVelocity, rb2d.velocity.y);
+
+        Debug.Log(collision.gameObject.name);
+
+        rb2d.velocity = newVelocity;
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        BallSpawner.SpawnBall(gameObject);
+        Destroy(gameObject);
     }
 }
