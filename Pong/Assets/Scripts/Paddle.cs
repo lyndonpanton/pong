@@ -18,7 +18,6 @@ public class Paddle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (gameObject.CompareTag("player one"))
         {
             MovePaddle(KeyCode.W, KeyCode.S);
