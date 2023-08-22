@@ -15,6 +15,11 @@ public class BallSpawner : MonoBehaviour
         SpawnBall(ballPrefab);
     }
 
+    void Update()
+    {
+
+    }
+
     public static void SpawnBall(GameObject ball)
     {
         //GameObject ball;
@@ -25,10 +30,12 @@ public class BallSpawner : MonoBehaviour
         //    Quaternion.identity
         //);
 
-        Instantiate(
+        GameObject newBall = Instantiate(
             ball,
             new Vector3(0, 0, 0),
             Quaternion.identity
         );
+
+        newBall.name = "Ball";
     }
 }

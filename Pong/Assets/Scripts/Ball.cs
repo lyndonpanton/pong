@@ -11,6 +11,8 @@ public class Ball : MonoBehaviour
 
     public Rigidbody2D rb2d;
     public const int speed = 3;
+    public bool isDead = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,18 +40,10 @@ public class Ball : MonoBehaviour
         rb2d.velocity = new Vector2(xDirection, yDirection) * 3;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         float xVelocity = rb2d.velocity.x;
         Vector2 newVelocity = new Vector2(xVelocity, rb2d.velocity.y);
-
-        Debug.Log(collision.gameObject.name);
 
         rb2d.velocity = newVelocity;
     }
@@ -57,6 +51,7 @@ public class Ball : MonoBehaviour
     void OnTriggerExit2D(Collider2D collision)
     {
         BallSpawner.SpawnBall(gameObject);
+        isDead = true;
         Destroy(gameObject);
     }
 }
