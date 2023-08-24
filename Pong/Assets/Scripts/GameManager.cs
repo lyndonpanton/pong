@@ -18,13 +18,29 @@ public class GameManager : MonoBehaviour
     {
         GameObject canvas = GameObject.Find("Canvas");
         leftScoreObject = canvas.GetComponentsInChildren<TextMeshProUGUI>()[0];
-        leftScoreObject.text = (int.Parse(leftScoreObject.text) + 1).ToString();
+
+        int newScore = (int.Parse(leftScoreObject.text) + 1);
+        leftScoreObject.text = newScore.ToString();
+
+        if (newScore == 10)
+        {
+            // this player wins, play again?
+            Debug.Log("Player 1 wins");
+        }
     }
 
     public static void IncrementRightScore(int score)
     {
         GameObject canvas = GameObject.Find("Canvas");
         rightScoreObject = canvas.GetComponentsInChildren<TextMeshProUGUI>()[1];
-        rightScoreObject.text = (int.Parse(rightScoreObject.text) + 1).ToString();
+
+        int newScore = (int.Parse(rightScoreObject.text) + 1);
+        rightScoreObject.text = newScore.ToString();
+
+        if (newScore == 10)
+        {
+            // this player wins, play again?
+            Debug.Log("Player 2 wins");
+        }
     }
 }

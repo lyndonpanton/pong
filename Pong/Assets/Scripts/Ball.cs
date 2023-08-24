@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField]
     public GameObject ballPrefab;
 
     public Rigidbody2D rb2d;
