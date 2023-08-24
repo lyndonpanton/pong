@@ -51,14 +51,13 @@ public class Ball : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        // On the left
         if (gameObject.transform.position.x < 0)
         {
-            GameManager.IncrementLeftScore(1);
+            GameManager.IncrementRightScore(1);
         }
         else
         {
-            GameManager.IncrementRightScore(1);
+            GameManager.IncrementLeftScore(1);
         }
 
         BallSpawner.SpawnBall(gameObject);
