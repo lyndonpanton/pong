@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -50,6 +51,16 @@ public class Ball : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
+        // On the left
+        if (gameObject.transform.position.x < 0)
+        {
+            GameManager.IncrementLeftScore(1);
+        }
+        else
+        {
+            GameManager.IncrementRightScore(1);
+        }
+
         BallSpawner.SpawnBall(gameObject);
         isDead = true;
         Destroy(gameObject);
