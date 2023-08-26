@@ -8,36 +8,15 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public GameObject ballPrefab;
-
     public Rigidbody2D rb2d;
-    public const int speed = 3;
+    public const int speed = 6;
     public bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        float xDirection = 1;
-        float yDirection = Random.Range(0, Mathf.PI);
-
-        if (Random.Range(0, 2) == 0)
-        {
-            xDirection *= -1;
-        }
-
-        if (Random.Range(0, 2) == 0)
-        {
-            yDirection *= -1;
-        }
-
         rb2d = GetComponent<Rigidbody2D>();
-        //rb2d.AddForce(
-        //    new Vector2(xDirection, yDirection) * speed,
-        //    ForceMode2D.Impulse
-        //);
-
-        //rb2d.velocity = Random.onUnitSphere * speed;
-        //rb2d.velocity = Random.onUnitSphere * speed * new Vector2 (xDirection, yDirection);
-        rb2d.velocity = new Vector2(xDirection, yDirection) * 3;
+        StartMoving();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -62,5 +41,21 @@ public class Ball : MonoBehaviour
         BallSpawner.SpawnBall(gameObject);
         isDead = true;
         Destroy(gameObject);
+    }
+
+    private void StartMoving()
+    {
+        float x = Random.Range(0, 2) == 0 ? -1 : 1;
+        //float yDirection = Random.Range(0, Mathf.PI);
+        float y = Random.Range(0, 2) == 0 ? -1 : 1;
+        //rb2d.AddForce(
+        //    new Vector2(xDirection, yDirection) * speed,
+        //    ForceMode2D.Impulse
+        //);
+
+        //rb2d.velocity = Random.onUnitSphere * speed;
+        //rb2d.velocity = Random.onUnitSphere * speed * new Vector2 (xDirection, yDirection);
+        rb2d.velocity = new Vector2(x * speed, y * speed);
+
     }
 }
