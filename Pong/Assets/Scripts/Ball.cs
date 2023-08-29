@@ -56,6 +56,5 @@ public class Ball : MonoBehaviour
         //rb2d.velocity = Random.onUnitSphere * speed;
         //rb2d.velocity = Random.onUnitSphere * speed * new Vector2 (xDirection, yDirection);
         rb2d.velocity = new Vector2(x * speed, y * speed);
-
     }
 }
