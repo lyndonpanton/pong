@@ -12,6 +12,9 @@ public class Ball : MonoBehaviour
     public const int speed = 6;
     public bool isDead = false;
 
+    [SerializeField]
+    private AudioSource hitSoundEffect, pointSoundEffect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,9 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.tag.StartsWith("player"))
+        hitSoundEffect.Play();
+
         float xVelocity = rb2d.velocity.x;
         Vector2 newVelocity = new Vector2(xVelocity, rb2d.velocity.y);
 
@@ -29,6 +35,8 @@ public class Ball : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
+        pointSoundEffect.Play();
+
         if (gameObject.transform.position.x < 0)
         {
             GameManager.IncrementRightScore(1);
