@@ -11,7 +11,7 @@
 	TODO
 
 	- [ ] Gameplay
-		- [ ] Draw the divider
+		- [x] Draw the divider
 		- [ ] Draw ball
 		- [ ] Move ball
 			- [ ] Move ball in straight line on start
@@ -115,8 +115,8 @@ int main(int argc, char* argv[])
 		player_two_colour
 	);
 	Ball ball(
-		new int[2] { 525, 705 },
-		30,
+		new int[2] { 530, 350 },
+		10,
 		32,
 		new float[2] { -2, 2 },
 		new int[3] { 255, 255, 255 }
@@ -187,7 +187,7 @@ int main(int argc, char* argv[])
 		render_window.clear(sf::Color(0, 0, 0));
 
 		draw_divider(render_window);
-		//draw_ball(render_window, ball);
+		draw_ball(render_window, ball);
 		draw_player(render_window, player_one);
 		draw_player(render_window, player_two);
 
@@ -205,7 +205,17 @@ int main(int argc, char* argv[])
 
 void draw_ball(sf::RenderWindow& render_window, Ball& ball)
 {
-
+	sf::CircleShape circle(ball.get_radius(), ball.get_point_count());
+	// does not start perfectly in the center
+	circle.setPosition(sf::Vector2f(
+		ball.get_position()[0], ball.get_position()[1]
+	));
+	circle.setFillColor(sf::Color(
+		ball.get_colour()[0],
+		ball.get_colour()[1],
+		ball.get_colour()[2]
+	));
+	render_window.draw(circle);
 }
 
 void draw_divider(sf::RenderWindow& render_window)
