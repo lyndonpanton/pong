@@ -12,12 +12,11 @@
 
 	- [ ] Gameplay
 		- [x] Draw the divider
-		- [ ] Draw ball
-		- [ ] Move ball
-			- [ ] Move ball in straight line on start
-			- [ ] Move ball in random direction (within boundary)
-			- [ ] Move ball on keypress (i.e., spacebar)
+		- [x] Draw ball
+		- [x] Move ball in the pre-defined direction on start
 		- [ ] Handle collisions between ball and horizontal edges
+		- [ ] Move ball in random direction (within boundary)
+		- [ ] Move ball on keypress (i.e., spacebar)
 		- [ ] Handle collisions between ball and vertical edges
 			- [ ] Give players a "points" member
 			- [ ] The relevant player's "points" member should be updated
@@ -70,7 +69,9 @@
 void draw_ball(sf::RenderWindow&, Ball&);
 void draw_divider(sf::RenderWindow&);
 void draw_player(sf::RenderWindow&, Player&);
+
 void update_player(sf::RenderWindow&, Player&);
+void update_ball(sf::RenderWindow&, Ball&);
 
 int main(int argc, char* argv[])
 {
@@ -193,6 +194,7 @@ int main(int argc, char* argv[])
 
 		update_player(render_window, player_one);
 		update_player(render_window, player_two);
+		update_ball(render_window, ball);
 
 		ImGui::SFML::Render(render_window);
 		render_window.display();
@@ -249,6 +251,29 @@ void draw_player(sf::RenderWindow& render_window, Player& player)
 		player.get_colour()[2]
 	));
 	render_window.draw(sf::RectangleShape(player_shape));
+}
+
+void update_ball(sf::RenderWindow& render_window, Ball& ball)
+{
+	if (
+		ball.get_position()[1] < 0
+		|| ball.get_position()[1] + ball.get_radius() * 2 > render_window.getSize().y
+		/*ball.get_position()[1] < 0
+		|| ball.get_position()[1] > render_window.getSize().y*/
+	)
+	{
+		ball.set_velocity(new float[2] {
+			ball.get_velocity()[0],
+			ball.get_velocity()[1] * -1
+		});
+	}
+
+	// Change later
+
+	ball.set_position(new int[2] {
+		ball.get_position()[0] + (int) ball.get_velocity()[0],
+		ball.get_position()[1] + (int) ball.get_velocity()[1]
+	});
 }
 
 void update_player(sf::RenderWindow& render_window, Player& player)
