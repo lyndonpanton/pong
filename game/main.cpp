@@ -36,6 +36,7 @@ int main(int argc, char* argv[])
 	Player player_one("Player One", player_one_position, player_one_dimension, player_one_colour);
 	Player player_two("Player Two", player_two_position, player_two_dimension, player_two_colour);
 	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong");
+	render_window.setFramerateLimit(60);
 
 	ImGui::SFML::Init(render_window);
 	ImGui::GetStyle().ScaleAllSizes(1.5f);
@@ -51,6 +52,49 @@ int main(int argc, char* argv[])
 			ImGui::SFML::ProcessEvent(event);
 
 			if (event.type == sf::Event::Closed) render_window.close();
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::W)
+				{
+					player_one.is_moving_up = true;
+					std::cout << "Player one up pressed" << std::endl;
+				}
+				if (event.key.code == sf::Keyboard::S)
+				{
+					player_one.is_moving_down = true;
+				}
+
+				if (event.key.code == sf::Keyboard::Up)
+				{
+					player_two.is_moving_up = true;
+				}
+				if (event.key.code == sf::Keyboard::Down)
+				{
+					player_two.is_moving_down = true;
+				}
+			}
+
+			if (event.type == sf::Event::KeyReleased)
+			{
+				if (event.key.code == sf::Keyboard::W)
+				{
+					player_one.is_moving_up = false;
+				}
+				if (event.key.code == sf::Keyboard::S)
+				{
+					player_one.is_moving_down = false;
+				}
+
+				if (event.key.code == sf::Keyboard::Up)
+				{
+					player_two.is_moving_up = false;
+				}
+				if (event.key.code == sf::Keyboard::Down)
+				{
+					player_two.is_moving_down = false;
+				}
+			}
 		}
 
 		ImGui::SFML::Update(render_window, delta_clock.restart());
@@ -59,6 +103,9 @@ int main(int argc, char* argv[])
 
 		draw(render_window, player_one);
 		draw(render_window, player_two);
+
+		update(player_one);
+		update(player_two);
 
 		ImGui::SFML::Render(render_window);
 		render_window.display();
@@ -89,5 +136,18 @@ void draw(sf::RenderWindow& render_window, Player& player)
 
 void update(Player& player)
 {
-
+	if (player.is_moving_up)
+	{
+		player.set_position(new int[2] {
+			player.get_position()[0],
+			player.get_position()[1] - player.speed
+		});
+	}
+	if (player.is_moving_down)
+	{
+		player.set_position(new int[2] {
+			player.get_position()[0],
+			player.get_position()[1] + player.speed
+		});
+	}
 }

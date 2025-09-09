@@ -14,6 +14,10 @@ public:
 	int* m_dimensions;
 	int* m_colour;
 
+	bool is_moving_up;
+	bool is_moving_down;
+	int speed = 5;
+
 	Player();
 	Player(const Player&);
 	Player(const char*, int*, int*, int*);
