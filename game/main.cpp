@@ -7,7 +7,7 @@
 #include "Player.h"
 
 void draw(sf::RenderWindow&, Player&);
-void update(Player&);
+void update(sf::RenderWindow&, Player&);
 
 int main(int argc, char* argv[])
 {
@@ -58,7 +58,6 @@ int main(int argc, char* argv[])
 				if (event.key.code == sf::Keyboard::W)
 				{
 					player_one.is_moving_up = true;
-					std::cout << "Player one up pressed" << std::endl;
 				}
 				if (event.key.code == sf::Keyboard::S)
 				{
@@ -104,8 +103,8 @@ int main(int argc, char* argv[])
 		draw(render_window, player_one);
 		draw(render_window, player_two);
 
-		update(player_one);
-		update(player_two);
+		update(render_window, player_one);
+		update(render_window, player_two);
 
 		ImGui::SFML::Render(render_window);
 		render_window.display();
@@ -134,20 +133,28 @@ void draw(sf::RenderWindow& render_window, Player& player)
 	render_window.draw(sf::RectangleShape(player_shape));
 }
 
-void update(Player& player)
+void update(sf::RenderWindow& render_window, Player& player)
 {
 	if (player.is_moving_up)
 	{
-		player.set_position(new int[2] {
-			player.get_position()[0],
-			player.get_position()[1] - player.speed
-		});
+		//if (player.get_position()[1] - player.speed > 0)
+		if (player.get_position()[1] > 0)
+		{
+			player.set_position(new int[2] {
+				player.get_position()[0],
+				player.get_position()[1] - player.speed
+			});
+		}
 	}
 	if (player.is_moving_down)
 	{
-		player.set_position(new int[2] {
-			player.get_position()[0],
-			player.get_position()[1] + player.speed
-		});
+		//if (player.get_position()[1] + player.speed < render_window.getSize().y)
+		if (player.get_position()[1] + player.get_dimensions()[1] < render_window.getSize().y)
+		{
+			player.set_position(new int[2] {
+				player.get_position()[0],
+				player.get_position()[1] + player.speed
+			});
+		}
 	}
 }
