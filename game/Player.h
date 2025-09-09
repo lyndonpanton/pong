@@ -16,7 +16,7 @@ public:
 
 	bool is_moving_up;
 	bool is_moving_down;
-	int speed = 5;
+	float speed = 5.0f;
 
 	Player();
 	Player(const Player&);
