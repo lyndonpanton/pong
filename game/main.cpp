@@ -18,9 +18,12 @@ int main(int argc, char* argv[])
 	player_one_dimension[0] = 20;
 	player_one_dimension[1] = 100;
 	int* player_one_colour = new int[3];
-	player_one_colour[0] = 255;
+	/*player_one_colour[0] = 255;
 	player_one_colour[1] = 0;
-	player_one_colour[2] = 0;
+	player_one_colour[2] = 0;*/
+	player_one_colour[0] = 255;
+	player_one_colour[1] = 255;
+	player_one_colour[2] = 255;
 
 	int* player_two_position = new int[2];
 	player_two_position[0] = 980;
@@ -29,9 +32,12 @@ int main(int argc, char* argv[])
 	player_two_dimension[0] = 20;
 	player_two_dimension[1] = 100;
 	int* player_two_colour = new int[3];
-	player_two_colour[0] = 0;
+	/*player_two_colour[0] = 0;
 	player_two_colour[1] = 255;
-	player_two_colour[2] = 0;
+	player_two_colour[2] = 0;*/
+	player_two_colour[0] = 255;
+	player_two_colour[1] = 255;
+	player_two_colour[2] = 255;
 
 	Player player_one("Player One", player_one_position, player_one_dimension, player_one_colour);
 	Player player_two("Player Two", player_two_position, player_two_dimension, player_two_colour);
