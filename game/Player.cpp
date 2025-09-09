@@ -2,15 +2,30 @@
 
 Player::Player()
 {
-
+	m_name = "???";
+	m_position[0] = 100;
+	m_position[1] = 100;
+	m_dimensions[0] = 20;
+	m_dimensions[1] = 80;
+	m_colour[0] = 127;
+	m_colour[1] = 127;
+	m_colour[2] = 127;
 }
 
 Player::Player(const Player& player)
+	: m_name(player.get_name())
+	, m_position(player.get_position())
+	, m_dimensions(player.get_dimensions())
+	, m_colour(player.get_colour())
 {
 
 }
 
-Player::Player(std::string name, int* position, int* dimensions, int* colours)
+Player::Player(const char* name, int* position, int* dimensions, int* colours)
+	: m_name(name)
+	, m_position(position)
+	, m_dimensions(dimensions)
+	, m_colour(colours)
 {
 
 }
@@ -20,7 +35,7 @@ Player::~Player()
 	std::cout << "Player: " << m_name << " has been destroyed" << std::endl;
 }
 
-std::string Player::get_name() const
+const char* Player::get_name() const
 {
 	return m_name;
 }
@@ -40,7 +55,7 @@ int* Player::get_colour() const
 	return m_colour;
 }
 
-void Player::set_name(std::string name)
+void Player::set_name(const char* name)
 {
 	m_name = name;
 }

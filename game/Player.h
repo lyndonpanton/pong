@@ -9,22 +9,22 @@ class Player
 {
 
 public:
-	std::string m_name;
+	const char* m_name;
 	int* m_position;
 	int* m_dimensions;
 	int* m_colour;
 
 	Player();
 	Player(const Player&);
-	Player(std::string, int*, int*, int*);
+	Player(const char*, int*, int*, int*);
 	~Player();
 
-	std::string get_name() const;
+	const char* get_name() const;
 	int* get_position() const;
 	int* get_dimensions() const;
 	int* get_colour() const;
 
-	void set_name(std::string);
+	void set_name(const char*);
 	void set_position(int*);
 	void set_position(int, int);
 	void set_dimensions(int*);
