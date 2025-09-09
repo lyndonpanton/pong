@@ -210,9 +210,9 @@ void draw_ball(sf::RenderWindow& render_window, Ball& ball)
 
 void draw_divider(sf::RenderWindow& render_window)
 {
-	for (int i = 0; i < render_window.getSize().y; i += 40)
+	for (int i = 0; i < render_window.getSize().y + 80; i += 80)
 	{
-		sf::RectangleShape divider_segment(sf::Vector2f(10, 50));
+		sf::RectangleShape divider_segment(sf::Vector2f(5, 50));
 		divider_segment.setPosition(
 			render_window.getSize().x / 2.0f - divider_segment.getSize().x / 2.0f,
 			i
