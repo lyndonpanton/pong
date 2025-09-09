@@ -4,6 +4,11 @@
 #include "imgui-SFML.h"
 #include "SFML/Graphics.hpp"
 
+#include "Player.h"
+
+void draw();
+void update();
+
 int main(int argc, char* argv[])
 {
 	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong");
@@ -26,13 +31,6 @@ int main(int argc, char* argv[])
 
 		ImGui::SFML::Update(render_window, delta_clock.restart());
 
-		ImGui::Begin("Settings");
-
-		ImGui::Text("Hello World");
-
-		ImGui::End();
-
-
 		render_window.clear(sf::Color(0, 0, 0));
 
 		ImGui::SFML::Render(render_window);
@@ -42,4 +40,14 @@ int main(int argc, char* argv[])
 	ImGui::SFML::Shutdown(render_window);
 
 	return 0;
+}
+
+void draw()
+{
+
+}
+
+void update()
+{
+
 }
