@@ -28,12 +28,12 @@
 				- [ ] Hitting top or bottom of padding should reverse the y
 				velocity of the ball
 				- [ ] Prioritise front of paddle over top and bottom of paddle
-			- [ ] Change velocity of ball based on what section of "front" edge was
+				- [ ] Change velocity of ball based on what section of "front" edge was
 			hit
 		- [ ] Game can be won (default: 10 points)
 		- [ ] Game can be paused (default: Escape key)
 	- [ ] UI
-		- [ ] Display the score for each player
+		- [x] Display the score for each player
 		- [ ] Display message with winner name when game finishes
 		- [ ] Display message whilst the game is paused
 	- [ ] Sound
@@ -88,9 +88,6 @@ int main(int argc, char* argv[])
 	player_one_dimension[0] = 20;
 	player_one_dimension[1] = 100;
 	int* player_one_colour = new int[3];
-	/*player_one_colour[0] = 255;
-	player_one_colour[1] = 0;
-	player_one_colour[2] = 0;*/
 	player_one_colour[0] = 255;
 	player_one_colour[1] = 255;
 	player_one_colour[2] = 255;
@@ -102,9 +99,6 @@ int main(int argc, char* argv[])
 	player_two_dimension[0] = 20;
 	player_two_dimension[1] = 100;
 	int* player_two_colour = new int[3];
-	/*player_two_colour[0] = 0;
-	player_two_colour[1] = 255;
-	player_two_colour[2] = 0;*/
 	player_two_colour[0] = 255;
 	player_two_colour[1] = 255;
 	player_two_colour[2] = 255;
@@ -130,6 +124,7 @@ int main(int argc, char* argv[])
 		new float[2] { -2, 2 },
 		new int[3] { 255, 255, 255 }
 	);
+
 	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong");
 	render_window.setFramerateLimit(60);
 
@@ -192,6 +187,14 @@ int main(int argc, char* argv[])
 				{
 					player_two.is_moving_down = false;
 				}
+
+				if (
+					event.key.code == sf::Keyboard::Space
+					&& !ball.get_is_moving()
+				)
+				{
+					ball.set_is_moving(true);
+				}
 			}
 		}
 
@@ -201,7 +204,9 @@ int main(int argc, char* argv[])
 
 		update_player(render_window, player_one);
 		update_player(render_window, player_two);
-		update_ball(render_window, ball, player_one, player_two);
+		
+		if (ball.get_is_moving())
+			update_ball(render_window, ball, player_one, player_two);
 
 		draw_divider(render_window);
 		draw_ball(render_window, ball);

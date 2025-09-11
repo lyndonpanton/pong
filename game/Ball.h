@@ -15,6 +15,7 @@ public:
 	int* m_initial_position;
 	int m_radius;
 	float* m_velocity;
+	bool m_is_moving;
 
 	Ball();
 	Ball(const Ball&);
@@ -26,12 +27,14 @@ public:
 	int* get_position() const;
 	int get_radius() const;
 	float* get_velocity() const;
+	bool get_is_moving() const;
 
 	void set_colour(int*);
 	void set_point_count(int);
 	void set_position(int*);
 	void set_radius(int);
 	void set_velocity(float*);
+	void set_is_moving(bool);
 
 	void reset();
 };

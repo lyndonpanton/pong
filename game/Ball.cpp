@@ -70,6 +70,11 @@ float* Ball::get_velocity() const
 	return m_velocity;
 }
 
+bool Ball::get_is_moving() const
+{
+	return m_is_moving;
+}
+
 void Ball::set_colour(int* colour)
 {
 	m_colour = colour;
@@ -95,8 +100,14 @@ void Ball::set_velocity(float* velocity)
 	m_velocity = velocity;
 }
 
+void Ball::set_is_moving(bool is_moving)
+{
+	m_is_moving = is_moving;
+}
+
 void Ball::reset()
 {
-	// Change velocity
 	set_position(m_initial_position);
+
+	// Calculate new random velocity
 }
