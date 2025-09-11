@@ -4,6 +4,7 @@
 #include "imgui-SFML.h"
 #include "SFML/Graphics.hpp"
 
+#include "PlayerType.h"
 #include "Player.h"
 #include "Ball.h"
 
@@ -14,7 +15,7 @@
 		- [x] Draw the divider
 		- [x] Draw ball
 		- [x] Move ball in the pre-defined direction on start
-		- [ ] Handle collisions between ball and horizontal edges
+		- [x] Handle collisions between ball and horizontal edges
 		- [ ] Move ball in random direction (within boundary)
 		- [ ] Move ball on keypress (i.e., spacebar)
 		- [ ] Handle collisions between ball and vertical edges
@@ -71,7 +72,7 @@ void draw_divider(sf::RenderWindow&);
 void draw_player(sf::RenderWindow&, Player&);
 
 void update_player(sf::RenderWindow&, Player&);
-void update_ball(sf::RenderWindow&, Ball&);
+void update_ball(sf::RenderWindow&, Ball&, Player&, Player&);
 
 int main(int argc, char* argv[])
 {
@@ -104,12 +105,14 @@ int main(int argc, char* argv[])
 	player_two_colour[2] = 255;
 
 	Player player_one(
+		PlayerType::ONE,
 		"Player One",
 		player_one_position,
 		player_one_dimension,
 		player_one_colour
 	);
 	Player player_two(
+		PlayerType::TWO,
 		"Player Two",
 		player_two_position,
 		player_two_dimension,
@@ -194,7 +197,7 @@ int main(int argc, char* argv[])
 
 		update_player(render_window, player_one);
 		update_player(render_window, player_two);
-		update_ball(render_window, ball);
+		update_ball(render_window, ball, player_one, player_two);
 
 		ImGui::SFML::Render(render_window);
 		render_window.display();
@@ -253,8 +256,14 @@ void draw_player(sf::RenderWindow& render_window, Player& player)
 	render_window.draw(sf::RectangleShape(player_shape));
 }
 
-void update_ball(sf::RenderWindow& render_window, Ball& ball)
+void update_ball(
+	sf::RenderWindow& render_window,
+	Ball& ball,
+	Player& player_one,
+	Player& player_two
+)
 {
+	// Ball / horizontal edge collision
 	if (
 		ball.get_position()[1] < 0
 		|| ball.get_position()[1] + ball.get_radius() * 2 > render_window.getSize().y
@@ -268,8 +277,87 @@ void update_ball(sf::RenderWindow& render_window, Ball& ball)
 		});
 	}
 
-	// Change later
+	// Ball / vertical edge collision
 
+	// Ball player collision
+	//if (
+	//	ball.get_position()[0] >= player_one.get_position()[0]
+	//		+ player_one.get_dimensions()[0]
+	//	&& ball.get_position()[0] <= player_one.get_position()[0]
+	//)
+	//{
+	//	// Ball has x position within player one bounds
+	//	ball.set_velocity(new float[2] {
+	//		ball.get_velocity()[0] * -1,
+	//		ball.get_velocity()[1]
+	//	});
+	//}
+	//else if (
+	//	ball.get_position()[0] >= player_two.get_position()[0]
+	//	&& ball.get_position()[0] <= player_two.get_position()[0]
+	//		- player_two.get_dimensions()[0]
+	//)
+	//{
+	//	// Ball has x position within player two bounds
+	//	ball.set_velocity(new float[2] {
+	//		ball.get_velocity()[0] * -1,
+	//		ball.get_velocity()[1]
+	//	});
+	//}
+
+	// Ball / player one (front edge) collision
+	if (
+		(
+			ball.get_position()[0] <= player_one.get_position()[0]
+				+ player_one.get_dimensions()[0]
+			&& ball.get_position()[0] >= player_one.get_position()[0]
+				+ player_one.get_dimensions()[0]
+		)
+		&& ball.get_velocity()[0] < 0
+	)
+	{
+		if (
+			ball.get_position()[1] + (ball.get_radius() * 2)
+				>= player_one.get_position()[1]
+			&& ball.get_position()[1]
+				<= player_one.get_position()[1]
+				+ player_one.get_dimensions()[1]
+		)
+		{
+			ball.set_velocity(new float[2] {
+				ball.get_velocity()[0] * -1,
+				ball.get_velocity()[1]
+			});
+		}
+	}
+
+	// Ball / player two (front edge) collision
+	if (
+		(
+			ball.get_position()[0] + (ball.get_radius() * 2)
+				<= player_two.get_position()[0]
+			&& ball.get_position()[0] + (ball.get_radius() * 2)
+				>= player_two.get_position()[0] 
+		)
+		&& ball.get_velocity()[0] > 0
+	)
+	{
+		if (
+			ball.get_position()[1] + (ball.get_radius() * 2)
+				>= player_two.get_position()[1]
+			&& ball.get_position()[1]
+				<= player_two.get_position()[1]
+				+ player_two.get_dimensions()[1]
+			)
+		{
+			ball.set_velocity(new float[2] {
+				ball.get_velocity()[0] * -1,
+				ball.get_velocity()[1]
+			});
+		}
+	}
+
+	// update ball position
 	ball.set_position(new int[2] {
 		ball.get_position()[0] + (int) ball.get_velocity()[0],
 		ball.get_position()[1] + (int) ball.get_velocity()[1]
