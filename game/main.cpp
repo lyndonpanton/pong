@@ -27,9 +27,9 @@
 				of the ball
 				- [ ] Hitting top or bottom of padding should reverse the y
 				velocity of the ball
-				- [ ] Prioritise front of paddle over top and bottom of paddle
-				- [ ] Change velocity of ball based on what section of "front" edge was
-			hit
+					- [ ] Prioritise front of paddle over top and bottom of paddle
+				- [ ] Change velocity of ball based on what section of "front"
+				edge was hit
 		- [ ] Game can be won (default: 10 points)
 		- [x] Game can be paused and unpaused (default: Escape key)
 	- [ ] UI
@@ -67,6 +67,10 @@
 			- [ ] Ball properties
 			- [ ] Player one properties
 			- [ ] Player two properties
+	- Additional
+		- [ ] Modifications
+			- [ ] Keys for actions can be modified
+			- [ ] Score system can be modified
 */
 
 void draw_ball(sf::RenderWindow&, Ball&);
@@ -312,7 +316,7 @@ void draw_score(
 
 void load_font(sf::RenderWindow& render_window, sf::Text& text, sf::Font& font)
 {
-	std::string font_path = "arial.ttf";
+	std::string font_path = "font/arial.ttf";
 	int font_size = 96;
 	int font_colour_red = 255;
 	int font_colour_green = 255;
