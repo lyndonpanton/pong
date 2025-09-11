@@ -71,6 +71,9 @@
 		- [ ] Modifications
 			- [ ] Keys for actions can be modified
 			- [ ] Score system can be modified
+		- [ ] Window
+			- [ ] Window icon
+			- [ ] Mouse cursor
 */
 
 void draw_ball(sf::RenderWindow&, Ball&);
@@ -131,7 +134,7 @@ int main(int argc, char* argv[])
 	);
 	bool is_game_playing = true;
 
-	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong");
+	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong", sf::Style::Close);
 	render_window.setFramerateLimit(60);
 
 	sf::Text text;
