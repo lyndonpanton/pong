@@ -124,6 +124,7 @@ int main(int argc, char* argv[])
 		new float[2] { -2, 2 },
 		new int[3] { 255, 255, 255 }
 	);
+	bool is_game_playing = true;
 
 	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong");
 	render_window.setFramerateLimit(60);
@@ -195,6 +196,11 @@ int main(int argc, char* argv[])
 				{
 					ball.set_is_moving(true);
 				}
+
+				if (event.key.code == sf::Keyboard::Escape)
+				{
+					is_game_playing = !is_game_playing;
+				}
 			}
 		}
 
@@ -202,11 +208,14 @@ int main(int argc, char* argv[])
 
 		render_window.clear(sf::Color(0, 0, 0));
 
-		update_player(render_window, player_one);
-		update_player(render_window, player_two);
-		
-		if (ball.get_is_moving())
-			update_ball(render_window, ball, player_one, player_two);
+		if (is_game_playing)
+		{
+			update_player(render_window, player_one);
+			update_player(render_window, player_two);
+
+			if (ball.get_is_moving())
+				update_ball(render_window, ball, player_one, player_two);
+		}
 
 		draw_divider(render_window);
 		draw_ball(render_window, ball);

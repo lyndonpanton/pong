@@ -15,7 +15,7 @@ public:
 	int* m_initial_position;
 	int m_radius;
 	float* m_velocity;
-	bool m_is_moving;
+	bool m_is_moving = false;
 
 	Ball();
 	Ball(const Ball&);
