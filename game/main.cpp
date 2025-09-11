@@ -31,11 +31,11 @@
 				- [ ] Change velocity of ball based on what section of "front" edge was
 			hit
 		- [ ] Game can be won (default: 10 points)
-		- [ ] Game can be paused (default: Escape key)
+		- [x] Game can be paused and unpaused (default: Escape key)
 	- [ ] UI
 		- [x] Display the score for each player
 		- [ ] Display message with winner name when game finishes
-		- [ ] Display message whilst the game is paused
+		- [x] Display message whilst the game is paused
 	- [ ] Sound
 		- [ ] Game starts
 		- [ ] Ball collides with top or bottom edge
@@ -71,6 +71,7 @@
 
 void draw_ball(sf::RenderWindow&, Ball&);
 void draw_divider(sf::RenderWindow&);
+void draw_pause_message(sf::RenderWindow&, sf::Text&);
 void draw_player(sf::RenderWindow&, Player&);
 void draw_score(sf::RenderWindow&, sf::Text&, Player&);
 
@@ -191,6 +192,7 @@ int main(int argc, char* argv[])
 
 				if (
 					event.key.code == sf::Keyboard::Space
+					&& is_game_playing
 					&& !ball.get_is_moving()
 				)
 				{
@@ -215,6 +217,10 @@ int main(int argc, char* argv[])
 
 			if (ball.get_is_moving())
 				update_ball(render_window, ball, player_one, player_two);
+		}
+		else
+		{
+			draw_pause_message(render_window, text);
 		}
 
 		draw_divider(render_window);
@@ -261,6 +267,15 @@ void draw_divider(sf::RenderWindow& render_window)
 
 		render_window.draw(divider_segment);
 	}
+}
+
+void draw_pause_message(sf::RenderWindow& render_window, sf::Text& text)
+{
+	std::string message = "PAUSED";
+	text.setString(message);
+	text.setPosition(render_window.getSize().x / 2.0f - 190, render_window.getSize().y / 2.0f - 80);
+
+	render_window.draw(text);
 }
 
 void draw_player(sf::RenderWindow& render_window, Player& player)
