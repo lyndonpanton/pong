@@ -327,31 +327,21 @@ void update_ball(
 
 	// Ball / vertical edge collision
 
-	// Ball player collision
-	//if (
-	//	ball.get_position()[0] >= player_one.get_position()[0]
-	//		+ player_one.get_dimensions()[0]
-	//	&& ball.get_position()[0] <= player_one.get_position()[0]
-	//)
-	//{
-	//	// Ball has x position within player one bounds
-	//	ball.set_velocity(new float[2] {
-	//		ball.get_velocity()[0] * -1,
-	//		ball.get_velocity()[1]
-	//	});
-	//}
-	//else if (
-	//	ball.get_position()[0] >= player_two.get_position()[0]
-	//	&& ball.get_position()[0] <= player_two.get_position()[0]
-	//		- player_two.get_dimensions()[0]
-	//)
-	//{
-	//	// Ball has x position within player two bounds
-	//	ball.set_velocity(new float[2] {
-	//		ball.get_velocity()[0] * -1,
-	//		ball.get_velocity()[1]
-	//	});
-	//}
+	if (
+		ball.get_position()[0] + (ball.get_radius() * 2)
+			<= 0
+	)
+	{
+		player_two.set_score(player_two.get_score() + 1);
+	}
+	
+	if (
+		// render_window.getSize().x was not working?
+		ball.get_position()[0] >= render_window.getView().getSize().x
+	)
+	{	
+		player_one.set_score(player_one.get_score() + 1);
+	}
 
 	// Ball / player one (front edge) collision
 	if (
