@@ -333,6 +333,7 @@ void update_ball(
 	)
 	{
 		player_two.set_score(player_two.get_score() + 1);
+		ball.reset();
 	}
 	
 	if (
@@ -341,6 +342,7 @@ void update_ball(
 	)
 	{	
 		player_one.set_score(player_one.get_score() + 1);
+		ball.reset();
 	}
 
 	// Ball / player one (front edge) collision

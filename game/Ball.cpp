@@ -2,6 +2,7 @@
 
 Ball::Ball()
 	: m_position(new int[2] { 0, 0 })
+	, m_initial_position(new int[2] { m_position[0], m_position[1]})
 	, m_radius(30)
 	, m_point_count(16)
 	, m_velocity(new float[2] { -4, 4 })
@@ -12,6 +13,7 @@ Ball::Ball()
 
 Ball::Ball(const Ball& ball)
 	: m_position(ball.get_position())
+	, m_initial_position(new int[2] { m_position[0], m_position[1]})
 	, m_radius(ball.get_radius())
 	, m_point_count(ball.get_point_count())
 	, m_velocity(ball.get_velocity())
@@ -28,6 +30,7 @@ Ball::Ball(
 	int* colour
 )
 	: m_position(position)
+	, m_initial_position(new int[2] { m_position[0], m_position[1]})
 	, m_radius(radius)
 	, m_point_count(point_count)
 	, m_velocity(velocity)
@@ -90,4 +93,10 @@ void Ball::set_radius(int radius)
 void Ball::set_velocity(float* velocity)
 {
 	m_velocity = velocity;
+}
+
+void Ball::reset()
+{
+	// Change velocity
+	set_position(m_initial_position);
 }

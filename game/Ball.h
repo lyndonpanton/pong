@@ -12,6 +12,7 @@ public:
 	int* m_colour;
 	int m_point_count;
 	int* m_position;
+	int* m_initial_position;
 	int m_radius;
 	float* m_velocity;
 
@@ -31,6 +32,8 @@ public:
 	void set_position(int*);
 	void set_radius(int);
 	void set_velocity(float*);
+
+	void reset();
 };
 
 #endif BALL_H;
