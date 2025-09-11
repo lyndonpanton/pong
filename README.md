@@ -27,5 +27,6 @@ A remake of the classic arcade game Pong, first released by Atari in 1972.
 
 - [Developer](https://github.com/lyndonpanton)
 - [Repository](https://github.com/lyndonpanton/pong)
+- [Font](https://befonts.com/arial-font.html)
 
 ## References

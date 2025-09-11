@@ -22,9 +22,8 @@
 			- [ ] Give players a "points" member
 			- [ ] The relevant player's "points" member should be updated
 		- [ ] Handle collisions between a ball and a paddle
-			- [ ] Reverse x velocity of ball on collision
 			- [ ] Change velocity of ball based on what edge of paddle was hit
-				- [ ] Hitting "front" of paddle should reverse the x velocity
+				- [x] Hitting "front" of paddle should reverse the x velocity
 				of the ball
 				- [ ] Hitting top or bottom of padding should reverse the y
 				velocity of the ball
@@ -45,14 +44,17 @@
 		- [ ] Player 1 scores a point
 		- [ ] Player 2 scores a point
 		- [ ] A player wins
-	- [ ] Player modifications
-		- [ ] Colour of a paddle can be modified
-		- [ ] Name of a player can be modified
-		- [ ] Height of a paddle can be modified
-		- [ ] Speed of a paddle can be modified
-		- [ ] Size of a ball can be modified
-		- [ ] Colour of a ball can be modified
-		- [ ] Speed of a ball can be modified
+	- [ ] Modifications
+		- [ ] Paddle
+			- [ ] Colour of a paddle can be modified
+			- [ ] Height of a paddle can be modified
+			- [ ] Name of a player can be modified
+			- [ ] Speed of a paddle can be modified
+		- [ ] Ball
+			- [ ] Colour of a ball can be modified
+			- [ ] Point count of a ball can be modified
+			- [ ] Radius of a ball can be modified
+			- [ ] Velocity of a ball can be modified
 	- Maintenance
 		- [ ] Create an Entity class
 		- [ ] Store the players and ball in a collection
@@ -70,6 +72,9 @@
 void draw_ball(sf::RenderWindow&, Ball&);
 void draw_divider(sf::RenderWindow&);
 void draw_player(sf::RenderWindow&, Player&);
+void draw_score(sf::RenderWindow&, sf::Text&, Player&);
+
+void load_font(sf::RenderWindow&, sf::Text&, sf::Font&);
 
 void update_player(sf::RenderWindow&, Player&);
 void update_ball(sf::RenderWindow&, Ball&, Player&, Player&);
@@ -127,6 +132,10 @@ int main(int argc, char* argv[])
 	);
 	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong");
 	render_window.setFramerateLimit(60);
+
+	sf::Text text;
+	sf::Font font;
+	load_font(render_window, text, font);
 
 	ImGui::SFML::Init(render_window);
 	ImGui::GetStyle().ScaleAllSizes(1.5f);
@@ -190,14 +199,16 @@ int main(int argc, char* argv[])
 
 		render_window.clear(sf::Color(0, 0, 0));
 
+		update_player(render_window, player_one);
+		update_player(render_window, player_two);
+		update_ball(render_window, ball, player_one, player_two);
+
 		draw_divider(render_window);
 		draw_ball(render_window, ball);
 		draw_player(render_window, player_one);
 		draw_player(render_window, player_two);
-
-		update_player(render_window, player_one);
-		update_player(render_window, player_two);
-		update_ball(render_window, ball, player_one, player_two);
+		draw_score(render_window, text, player_one);
+		draw_score(render_window, text, player_two);
 
 		ImGui::SFML::Render(render_window);
 		render_window.display();
@@ -254,6 +265,43 @@ void draw_player(sf::RenderWindow& render_window, Player& player)
 		player.get_colour()[2]
 	));
 	render_window.draw(sf::RectangleShape(player_shape));
+}
+
+void draw_score(
+	sf::RenderWindow& render_window, sf::Text& text, Player& player
+)
+{
+	text.setString(std::to_string(player.get_score()));
+
+	if (player.get_player_type() == PlayerType::ONE)
+		text.setPosition(120, 40);
+	else
+		text.setPosition(920, 40);
+
+	render_window.draw(text);
+}
+
+void load_font(sf::RenderWindow& render_window, sf::Text& text, sf::Font& font)
+{
+	std::string font_path = "arial.ttf";
+	int font_size = 96;
+	int font_colour_red = 255;
+	int font_colour_green = 255;
+	int font_colour_blue = 255;
+
+	/* read in information from file... */
+
+	if (!font.loadFromFile(font_path))
+	{
+		std::cerr << "Error: Font file could not be loaded" << std::endl;
+		exit(1);
+	}
+
+	text.setFont(font);
+	text.setCharacterSize(font_size);
+	text.setFillColor(sf::Color(
+		font_colour_red, font_colour_green, font_colour_blue
+	));
 }
 
 void update_ball(
@@ -331,6 +379,10 @@ void update_ball(
 		}
 	}
 
+	// Ball / player one (top edge) collision...
+	
+	// Ball / player one (bottom edge) collision...
+
 	// Ball / player two (front edge) collision
 	if (
 		(
@@ -356,6 +408,10 @@ void update_ball(
 			});
 		}
 	}
+
+	// Ball / player one (top edge) collision...
+
+	// Ball / player two (bottom edge) collision...
 
 	// update ball position
 	ball.set_position(new int[2] {

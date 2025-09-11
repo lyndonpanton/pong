@@ -20,7 +20,7 @@ Player::Player(const Player& player)
 }
 
 Player::Player(
-	enum PlayerType player_type,
+	PlayerType player_type,
 	const char* name,
 	int* position,
 	int* dimensions,
@@ -40,7 +40,7 @@ Player::~Player()
 	std::cout << "Player: " << m_name << " has been destroyed" << std::endl;
 }
 
-const enum PlayerType Player::get_player_type() const
+const PlayerType Player::get_player_type() const
 {
 	return m_player_type;
 }
@@ -65,7 +65,11 @@ int* Player::get_colour() const
 	return m_colour;
 }
 
-void Player::set_player_type(enum PlayerType player_type)
+int Player::get_score() const {
+	return m_score;
+}
+
+void Player::set_player_type(PlayerType player_type)
 {
 	m_player_type = player_type;
 }
@@ -107,4 +111,9 @@ void Player::set_colour(int red, int green, int blue)
 	m_colour[0] = red;
 	m_colour[1] = green;
 	m_colour[2] = blue;
+}
+
+void Player::set_score(int score)
+{
+	m_score = score;
 }

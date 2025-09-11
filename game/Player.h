@@ -15,6 +15,7 @@ public:
 	int* m_position;
 	int* m_dimensions;
 	int* m_colour;
+	int m_score = 0;
 
 	bool is_moving_up = false;
 	bool is_moving_down = false;
@@ -22,16 +23,17 @@ public:
 
 	Player();
 	Player(const Player&);
-	Player(enum PlayerType, const char*, int*, int*, int*);
+	Player(PlayerType, const char*, int*, int*, int*);
 	~Player();
 
-	const enum PlayerType get_player_type() const;
+	const PlayerType get_player_type() const;
 	const char* get_name() const;
 	int* get_position() const;
 	int* get_dimensions() const;
 	int* get_colour() const;
+	int get_score() const;
 
-	void set_player_type(enum PlayerType player_type);
+	void set_player_type(PlayerType player_type);
 	void set_name(const char*);
 	void set_position(int*);
 	void set_position(int, int);
@@ -39,6 +41,7 @@ public:
 	void set_dimensions(int, int);
 	void set_colour(int*);
 	void set_colour(int, int, int);
+	void set_score(int);
 };
 
 #endif PLAYER_H
