@@ -4,6 +4,7 @@
 #include "imgui-SFML.h"
 #include "SFML/Graphics.hpp"
 
+#include "Game.h"
 #include "PlayerType.h"
 #include "Player.h"
 #include "Ball.h"
@@ -21,6 +22,8 @@ void update_ball(sf::RenderWindow&, Ball&, Player&, Player&);
 
 int main(int argc, char* argv[])
 {
+	Game game(10);
+
 	int* player_one_position = new int[2];
 	player_one_position[0] = 100;
 	player_one_position[1] = 310;
@@ -64,7 +67,6 @@ int main(int argc, char* argv[])
 		new float[2] { -2, 2 },
 		new int[3] { 255, 255, 255 }
 	);
-	bool is_game_playing = true;
 
 	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong", sf::Style::Close);
 	render_window.setFramerateLimit(60);
@@ -131,7 +133,7 @@ int main(int argc, char* argv[])
 
 				if (
 					event.key.code == sf::Keyboard::Space
-					&& is_game_playing
+					&& !game.get_is_paused()
 					&& !ball.get_is_moving()
 				)
 				{
@@ -140,7 +142,7 @@ int main(int argc, char* argv[])
 
 				if (event.key.code == sf::Keyboard::Escape)
 				{
-					is_game_playing = !is_game_playing;
+					game.set_is_paused(!game.get_is_paused());
 				}
 			}
 		}
@@ -149,7 +151,7 @@ int main(int argc, char* argv[])
 
 		render_window.clear(sf::Color(0, 0, 0));
 
-		if (is_game_playing)
+		if (!game.get_is_paused())
 		{
 			update_player(render_window, player_one);
 			update_player(render_window, player_two);
@@ -384,7 +386,6 @@ void update_player(sf::RenderWindow& render_window, Player& player)
 {
 	if (player.is_moving_up)
 	{
-		//if (player.get_position()[1] - player.speed > 0)
 		if (player.get_position()[1] > 0)
 		{
 			player.set_position(new int[2] {
@@ -395,10 +396,6 @@ void update_player(sf::RenderWindow& render_window, Player& player)
 	}
 	if (player.is_moving_down)
 	{
-		/*if (
-			player.get_position()[1] + player.speed
-				< render_window.getSize().y
-		)*/
 		if (
 			player.get_position()[1] + player.get_dimensions()[1]
 				< render_window.getSize().y

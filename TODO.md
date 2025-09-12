@@ -45,6 +45,7 @@ A list of tasks related to the complete of this pong project.
         edge was hit
 - [ ] Game can be won (default: 10 points)
 - [x] Game can be paused and unpaused (default: Escape key)
+- [ ] Game can be restarted
 
 #### UI
 
@@ -68,6 +69,9 @@ A list of tasks related to the complete of this pong project.
 
 #### Window
 
+- [ ] Mouse cursor
+- [ ] Window icon
+
 #### Modifications
 
 - [ ] Paddle
@@ -90,19 +94,17 @@ A list of tasks related to the complete of this pong project.
 - [ ] Use a configuration file
     - [ ] Window properties
     - [ ] Font properties
+    - [ ] Game properties
     - [ ] Divider properties
     - [ ] Ball properties
     - [ ] Player one properties
     - [ ] Player two properties
-- [ ] Additional
-    - [ ] Modifications
-        - [ ] Keys for actions can be modified
-        - [ ] Score system can be modified
-    - [ ] Window
-        - [ ] Window icon
-        - [ ] Mouse cursor
 
 ### Extended
+
+- [ ] Keys for actions can be modified
+- [ ] Score system can be modified
+- [ ] Players can switch between score mode and timer mode
 
 #### Window Extended
 
