@@ -4,7 +4,7 @@
 #define PLAYER_TYPE_H
 
 enum PlayerType {
-	ONE, TWO
+	NONE, ONE, TWO
 };
 
 #endif PLAYER_TYPE_H

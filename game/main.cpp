@@ -11,18 +11,32 @@
 
 void draw_ball(sf::RenderWindow&, Ball&);
 void draw_divider(sf::RenderWindow&);
-void draw_pause_message(sf::RenderWindow&, sf::Text&);
+void draw_pause_message(sf::RenderWindow&, sf::Text&, Game&);
 void draw_player(sf::RenderWindow&, Player&);
-void draw_score(sf::RenderWindow&, sf::Text&, Player&);
+void draw_score(sf::RenderWindow&, sf::Text&, Game&, Player&);
+void draw_win_screen(sf::RenderWindow&, sf::Text&, Game&, Player&, Player&);
 
 void load_font(sf::RenderWindow&, sf::Text&, sf::Font&);
 
 void update_player(sf::RenderWindow&, Player&);
-void update_ball(sf::RenderWindow&, Ball&, Player&, Player&);
+void update_ball(sf::RenderWindow&, Game&, Player&, Player&, Ball&);
 
 int main(int argc, char* argv[])
 {
-	Game game(10);
+
+	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong", sf::Style::Close);
+	render_window.setFramerateLimit(60);
+
+	sf::Text text;
+	sf::Font font;
+	load_font(render_window, text, font);
+
+	ImGui::SFML::Init(render_window);
+	ImGui::GetStyle().ScaleAllSizes(1.5f);
+	ImGui::GetIO().FontGlobalScale = 1.5f;
+	sf::Clock delta_clock;
+
+	Game game(10, 96, 56, "PAUSED");
 
 	int* player_one_position = new int[2];
 	player_one_position[0] = 100;
@@ -67,18 +81,6 @@ int main(int argc, char* argv[])
 		new float[2] { -2, 2 },
 		new int[3] { 255, 255, 255 }
 	);
-
-	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong", sf::Style::Close);
-	render_window.setFramerateLimit(60);
-
-	sf::Text text;
-	sf::Font font;
-	load_font(render_window, text, font);
-
-	ImGui::SFML::Init(render_window);
-	ImGui::GetStyle().ScaleAllSizes(1.5f);
-	ImGui::GetIO().FontGlobalScale = 1.5f;
-	sf::Clock delta_clock;
 
 	while (render_window.isOpen())
 	{
@@ -151,25 +153,33 @@ int main(int argc, char* argv[])
 
 		render_window.clear(sf::Color(0, 0, 0));
 
-		if (!game.get_is_paused())
+		if (game.get_is_complete())
 		{
-			update_player(render_window, player_one);
-			update_player(render_window, player_two);
-
-			if (ball.get_is_moving())
-				update_ball(render_window, ball, player_one, player_two);
+			// draw win screen
+			draw_win_screen(render_window, text, game, player_one, player_two);
 		}
 		else
 		{
-			draw_pause_message(render_window, text);
+			if (!game.get_is_paused())
+			{
+				update_player(render_window, player_one);
+				update_player(render_window, player_two);
+
+				if (ball.get_is_moving())
+					update_ball(render_window, game, player_one, player_two, ball);
+			}
+			else
+			{
+				draw_pause_message(render_window, text, game);
+			}
 		}
 
 		draw_divider(render_window);
 		draw_ball(render_window, ball);
 		draw_player(render_window, player_one);
 		draw_player(render_window, player_two);
-		draw_score(render_window, text, player_one);
-		draw_score(render_window, text, player_two);
+		draw_score(render_window, text, game, player_one);
+		draw_score(render_window, text, game, player_two);
 
 		ImGui::SFML::Render(render_window);
 		render_window.display();
@@ -210,10 +220,10 @@ void draw_divider(sf::RenderWindow& render_window)
 	}
 }
 
-void draw_pause_message(sf::RenderWindow& render_window, sf::Text& text)
+void draw_pause_message(sf::RenderWindow& render_window, sf::Text& text, Game& game)
 {
-	std::string message = "PAUSED";
-	text.setString(message);
+	text.setCharacterSize(game.get_font_ui_size());
+	text.setString(game.get_pause_message());
 	text.setPosition(render_window.getSize().x / 2.0f - 190, render_window.getSize().y / 2.0f - 80);
 
 	render_window.draw(text);
@@ -238,15 +248,46 @@ void draw_player(sf::RenderWindow& render_window, Player& player)
 }
 
 void draw_score(
-	sf::RenderWindow& render_window, sf::Text& text, Player& player
+	sf::RenderWindow& render_window, sf::Text& text, Game& game, Player& player
 )
 {
+	text.setCharacterSize(game.get_font_ui_size());
 	text.setString(std::to_string(player.get_score()));
 
 	if (player.get_player_type() == PlayerType::ONE)
 		text.setPosition(120, 40);
 	else
 		text.setPosition(920, 40);
+
+	render_window.draw(text);
+}
+
+void draw_win_screen(
+	sf::RenderWindow& render_window,
+	sf::Text& text,
+	Game& game,
+	Player& player_one,
+	Player& player_two
+)
+{
+	std::string win_message;
+
+	if (game.get_winner() == PlayerType::ONE)
+	{
+		win_message = player_one.get_name();
+		win_message += " (P1)";
+	}
+	else
+	{
+		win_message = player_two.get_name();
+		win_message += " (P2)";
+	}
+	
+	win_message += " wins!";
+
+	text.setCharacterSize(game.get_font_win_screen_size());
+	text.setString(win_message);
+	text.setPosition(render_window.getSize().x / 2.0f - 260, render_window.getSize().y / 2.0f - 80);
 
 	render_window.draw(text);
 }
@@ -276,24 +317,12 @@ void load_font(sf::RenderWindow& render_window, sf::Text& text, sf::Font& font)
 
 void update_ball(
 	sf::RenderWindow& render_window,
-	Ball& ball,
+	Game& game,
 	Player& player_one,
-	Player& player_two
+	Player& player_two,
+	Ball& ball
 )
 {
-	// Ball / horizontal edge collision
-	if (
-		ball.get_position()[1] < 0
-		|| ball.get_position()[1] + ball.get_radius() * 2 > render_window.getSize().y
-		/*ball.get_position()[1] < 0
-		|| ball.get_position()[1] > render_window.getSize().y*/
-	)
-	{
-		ball.set_velocity(new float[2] {
-			ball.get_velocity()[0],
-			ball.get_velocity()[1] * -1
-		});
-	}
 
 	// Ball / vertical edge collision
 
@@ -313,6 +342,31 @@ void update_ball(
 	{	
 		player_one.set_score(player_one.get_score() + 1);
 		ball.reset();
+	}
+
+	if (player_one.get_score() == game.get_target_score())
+	{
+		game.set_is_complete(true);
+		game.set_winner(player_one.get_player_type());
+	}
+	else if (player_two.get_score() == game.get_target_score())
+	{
+		game.set_is_complete(true);
+		game.set_winner(player_two.get_player_type());
+	}
+
+	// Ball / horizontal edge collision
+	if (
+		ball.get_position()[1] < 0
+		|| ball.get_position()[1] + ball.get_radius() * 2 > render_window.getSize().y
+		/*ball.get_position()[1] < 0
+		|| ball.get_position()[1] > render_window.getSize().y*/
+	)
+	{
+		ball.set_velocity(new float[2] {
+			ball.get_velocity()[0],
+			ball.get_velocity()[1] * -1
+		});
 	}
 
 	// Ball / player one (front edge) collision

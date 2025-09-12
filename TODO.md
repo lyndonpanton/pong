@@ -74,6 +74,9 @@ A list of tasks related to the complete of this pong project.
 
 #### Modifications
 
+- [ ] Game
+    - [ ] Target score
+    - [ ] Is Playing
 - [ ] Paddle
     - [ ] Colour of a paddle can be modified
     - [ ] Height of a paddle can be modified
