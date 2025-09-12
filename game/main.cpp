@@ -17,6 +17,7 @@ void draw_score(sf::RenderWindow&, sf::Text&, Game&, Player&);
 void draw_win_screen(sf::RenderWindow&, sf::Text&, Game&, Player&, Player&);
 
 void load_font(sf::RenderWindow&, sf::Text&, sf::Font&);
+void load_cursor(sf::RenderWindow&, sf::Cursor&, sf::Image&);
 
 void update_player(sf::RenderWindow&, Player&);
 void update_ball(sf::RenderWindow&, Game&, Player&, Player&, Ball&);
@@ -26,6 +27,28 @@ int main(int argc, char* argv[])
 
 	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong", sf::Style::Close);
 	render_window.setFramerateLimit(60);
+	render_window.setMouseCursorVisible(false);
+	render_window.setVisible(true);
+
+	sf::Cursor cursor;
+	sf::Texture cursor_image;
+	sf::Sprite cursor_sprite;
+
+	if (!cursor_image.loadFromFile("image/cursor.png"))
+	{
+		std::cerr << "Error: Cursor file could not be loaded" << std::endl;
+		std::cout << "System default cursor icon will be used" << std::endl;
+	}
+
+	cursor_sprite.setTexture(cursor_image);
+
+
+	/*if (cursor.loadFromSystem(sf::Cursor::Wait))
+	{
+		render_window.setMouseCursor(cursor);
+	}
+
+	load_cursor(render_window, cursor, cursor_image);*/
 
 	sf::Text text;
 	sf::Font font;
@@ -163,6 +186,8 @@ int main(int argc, char* argv[])
 			}
 		}
 
+		cursor_sprite.setPosition(sf::Mouse::getPosition(render_window).x, sf::Mouse::getPosition(render_window).y);
+
 		ImGui::SFML::Update(render_window, delta_clock.restart());
 
 		render_window.clear(sf::Color(0, 0, 0));
@@ -186,6 +211,9 @@ int main(int argc, char* argv[])
 				draw_pause_message(render_window, text, game);
 			}
 		}
+
+		render_window.draw(cursor_sprite);
+		render_window.setMouseCursorVisible(false);
 
 		draw_divider(render_window);
 		draw_ball(render_window, ball);
@@ -303,6 +331,26 @@ void draw_win_screen(
 	text.setPosition(render_window.getSize().x / 2.0f - 260, render_window.getSize().y / 2.0f - 80);
 
 	render_window.draw(text);
+}
+
+void load_cursor(
+	sf::RenderWindow& render_window,
+	sf::Cursor& cursor,
+	sf::Image& cursor_image
+)
+{
+	//
+	//if (!cursor_image.loadFromFile("image/cursor.png"))
+	//{
+	//	std::cerr << "Error: Cursor file could not be loaded" << std::endl;
+	//	std::cout << "System default cursor icon will be used" << std::endl;
+	//}
+
+	//cursor.loadFromPixels(cursor_image.getPixelsPtr(), sf::Vector2u(64, 64), sf::Vector2u(0, 0));
+	if (cursor.loadFromSystem(sf::Cursor::Wait))
+	{
+		render_window.setMouseCursor(cursor);
+	}
 }
 
 void load_font(sf::RenderWindow& render_window, sf::Text& text, sf::Font& font)

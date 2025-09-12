@@ -69,7 +69,7 @@ A list of tasks related to the complete of this pong project.
 
 #### Window
 
-- [ ] Mouse cursor
+- [x] Mouse cursor
 - [ ] Window icon
 
 #### Modifications
@@ -99,8 +99,8 @@ A list of tasks related to the complete of this pong project.
 - [ ] Modify the Player and Ball classes
 - [ ] Modify the draw and update methods
 - [ ] Use a configuration file
-    - [ ] Window properties
-    - [ ] Font properties
+    - [ ] Window properties (size, title, resizable cursor path)
+    - [ ] Font properties (path, size, red value, green value, blue value)
     - [ ] Game properties
     - [ ] Divider properties
     - [ ] Ball properties
