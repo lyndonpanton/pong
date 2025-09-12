@@ -29,23 +29,23 @@ A list of tasks related to the complete of this pong project.
 - [x] Draw ball
 - [x] Move ball in the pre-defined direction on start
 - [x] Handle collisions between ball and horizontal edges
-- [ ] Move ball in random direction (within boundary)
-- [ ] Move ball on keypress (i.e., spacebar)
-- [ ] Handle collisions between ball and vertical edges
-    - [ ] Give players a "points" member
-    - [ ] The relevant player's "points" member should be updated
+- [ ] Move ball in random direction on start(within boundary)
+- [x] Move ball on keypress on start (default key: Spacebar)
+- [x] Handle collisions between ball and vertical edges
+    - [x] Give players a "points" member
+    - [x] The relevant player's "points" member should be updated
 - [ ] Handle collisions between a ball and a paddle
     - [ ] Change velocity of ball based on what edge of paddle was hit
         - [x] Hitting "front" of paddle should reverse the x velocity
         of the ball
-        - [ ] Hitting top or bottom of padding should reverse the y
+        - [x] Hitting top or bottom of padding should reverse the y
         velocity of the ball
-            - [ ] Prioritise front of paddle over top and bottom of paddle
-        - [ ] Change velocity of ball based on what section of "front"
-        edge was hit
+            - [x] Prioritise front of paddle over top and bottom of paddle
+        - [ ] Change velocity of ball based on what section of "front" edge
+        was hit
 - [x] Game can be won (default: 10 points)
-- [x] Game can be paused and unpaused (default: Escape key)
-- [ ] Game can be restarted (default: R key)
+- [x] Game can be paused and unpaused (default key: Escape)
+- [x] Game can be restarted (default key: R)
 
 #### UI
 
@@ -76,7 +76,7 @@ A list of tasks related to the complete of this pong project.
 
 - [ ] Game
     - [ ] Target score
-    - [ ] Is Playing
+    - [ ] Is playing
 - [ ] Paddle
     - [ ] Colour of a paddle can be modified
     - [ ] Height of a paddle can be modified
@@ -86,7 +86,11 @@ A list of tasks related to the complete of this pong project.
     - [ ] Colour of a ball can be modified
     - [ ] Point count of a ball can be modified
     - [ ] Radius of a ball can be modified
-    - [ ] Velocity of a ball can be modified
+    - [ ] Velocity
+        - [ ] Initial velocity of a ball can be modified
+        - [ ] Velocity of a ball can be modified
+        - [ ] Can choose the match initial velocity changes with velocity
+        changes and vice versa
 
 #### Maintenance
 
@@ -105,13 +109,12 @@ A list of tasks related to the complete of this pong project.
 
 ### Extended
 
-- [ ] Keys for actions can be modified
-- [ ] Score system can be modified
-- [ ] Players can switch between score mode and timer mode
-
 #### Window Extended
 
 #### Modifications Extended
+
+- [ ] Keys for actions can be modified
+- [ ] Players can switch between score mode and timer mode
 
 ## Notes
 

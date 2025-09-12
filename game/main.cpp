@@ -313,8 +313,6 @@ void load_font(sf::RenderWindow& render_window, sf::Text& text, sf::Font& font)
 	int font_colour_green = 255;
 	int font_colour_blue = 255;
 
-	/* read in information from file... */
-
 	if (!font.loadFromFile(font_path))
 	{
 		std::cerr << "Error: Font file could not be loaded" << std::endl;
@@ -337,8 +335,7 @@ void update_ball(
 )
 {
 
-	// Ball / vertical edge collision
-
+	// Ball / environment (vertical edge) collision
 	if (
 		ball.get_position()[0] + (ball.get_radius() * 2)
 			<= 0
@@ -368,12 +365,10 @@ void update_ball(
 		game.set_winner(player_two.get_player_type());
 	}
 
-	// Ball / horizontal edge collision
+	// Ball / environment (horizontal edge) collision
 	if (
 		ball.get_position()[1] < 0
 		|| ball.get_position()[1] + ball.get_radius() * 2 > render_window.getSize().y
-		/*ball.get_position()[1] < 0
-		|| ball.get_position()[1] > render_window.getSize().y*/
 	)
 	{
 		ball.set_velocity(new float[2] {
@@ -407,10 +402,25 @@ void update_ball(
 			});
 		}
 	}
-
-	// Ball / player one (top edge) collision...
-	
-	// Ball / player one (bottom edge) collision...
+	else if (
+		ball.get_position()[0] + (ball.get_radius() * 2)
+			>= player_one.get_position()[0]
+		&& ball.get_position()[0]
+			<= player_one.get_position()[0] + player_one.get_dimensions()[0]
+	)
+	{
+		if (
+			ball.get_position()[1] + (ball.get_radius() * 2)
+				>= player_one.get_position()[1]
+			&& ball.get_position()[1]
+				<= player_one.get_position()[1] + player_one.get_dimensions()[1]
+		)
+		{
+			ball.set_velocity(new float[2] {
+				ball.get_velocity()[0], ball.get_velocity()[1] * -1
+			});
+		}
+	}
 
 	// Ball / player two (front edge) collision
 	if (
@@ -437,10 +447,26 @@ void update_ball(
 			});
 		}
 	}
+	else if (
+		ball.get_position()[0] + (ball.get_radius() * 2)
+			>= player_two.get_position()[0]
+		&& ball.get_position()[0]
+			<= player_two.get_position()[0] + player_two.get_dimensions()[0]
+	)
+	{
+		if (
+			ball.get_position()[1] + (ball.get_radius() * 2)
+				>= player_two.get_position()[1]
+			&& ball.get_position()[1] 
+				<= player_two.get_position()[1] + player_two.get_dimensions()[1]
+			)
+		{
+			ball.set_velocity(new float[2] {
+				ball.get_velocity()[0], ball.get_velocity()[1] * -1
+			});
+		}
+	}
 
-	// Ball / player one (top edge) collision...
-
-	// Ball / player two (bottom edge) collision...
 
 	// update ball position
 	ball.set_position(new int[2] {
