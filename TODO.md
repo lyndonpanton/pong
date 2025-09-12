@@ -20,6 +20,7 @@ A list of tasks related to the complete of this pong project.
 - [Extended](#extended)
     - [Window Extended](#window-extended)
     - [Modifications Extended](#modifications-extended)
+- [Bugs](#bugs)
 
 ### MVP
 
@@ -69,8 +70,10 @@ A list of tasks related to the complete of this pong project.
 
 #### Window
 
-- [x] Mouse cursor
-- [ ] Window icon
+- [x] Game should use a custom mouse cursor
+- [x] Game should a custom window icon
+    - [x] Icon for open window
+    - [x] Icon for dock
 
 #### Modifications
 
@@ -115,6 +118,10 @@ A list of tasks related to the complete of this pong project.
 
 - [ ] Keys for actions can be modified
 - [ ] Players can switch between score mode and timer mode
+
+### Bugs
+
+- [ ] Custom mouse cursor displays under top window bar
 
 ## Notes
 

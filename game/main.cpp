@@ -29,6 +29,19 @@ int main(int argc, char* argv[])
 	render_window.setFramerateLimit(60);
 	render_window.setMouseCursorVisible(false);
 	render_window.setVisible(true);
+	sf::Image render_window_icon;
+
+	if (!render_window_icon.loadFromFile("image/icon-pong.png"))
+	{
+		std::cerr << "Error: Window icon file could not be loaded" << std::endl;
+		std::cout << "System default window icon will be used" << std::endl;
+	}
+
+	render_window.setIcon(
+		render_window_icon.getSize().x,
+		render_window_icon.getSize().y,
+		render_window_icon.getPixelsPtr()
+	);
 
 	sf::Cursor cursor;
 	sf::Texture cursor_image;
@@ -212,15 +225,15 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		render_window.draw(cursor_sprite);
-		render_window.setMouseCursorVisible(false);
-
 		draw_divider(render_window);
 		draw_ball(render_window, ball);
 		draw_player(render_window, player_one);
 		draw_player(render_window, player_two);
 		draw_score(render_window, text, game, player_one);
 		draw_score(render_window, text, game, player_two);
+
+		render_window.draw(cursor_sprite);
+		render_window.setMouseCursorVisible(false);
 
 		ImGui::SFML::Render(render_window);
 		render_window.display();
