@@ -107,7 +107,8 @@ void Ball::set_is_moving(bool is_moving)
 
 void Ball::reset()
 {
+	//set_is_moving(false);
 	set_position(m_initial_position);
 
-	// Calculate new random velocity
+	// Calculate new random velocity instead
 }

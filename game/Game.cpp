@@ -113,5 +113,6 @@ void Game::set_winner(PlayerType winner)
 void Game::reset()
 {
 	set_is_complete(false);
+	set_is_paused(false);
 	set_winner(PlayerType::NONE);
 }

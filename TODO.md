@@ -43,14 +43,14 @@ A list of tasks related to the complete of this pong project.
             - [ ] Prioritise front of paddle over top and bottom of paddle
         - [ ] Change velocity of ball based on what section of "front"
         edge was hit
-- [ ] Game can be won (default: 10 points)
+- [x] Game can be won (default: 10 points)
 - [x] Game can be paused and unpaused (default: Escape key)
-- [ ] Game can be restarted
+- [ ] Game can be restarted (default: R key)
 
 #### UI
 
 - [x] Display the score for each player
-- [ ] Display message with winner name when game finishes
+- [x] Display message with winner name when game finishes
 - [x] Display message whilst the game is paused
 
 #### Audio

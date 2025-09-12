@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 	ImGui::GetIO().FontGlobalScale = 1.5f;
 	sf::Clock delta_clock;
 
-	Game game(10, 96, 56, "PAUSED");
+	Game game(1, 96, 56, "PAUSED");
 
 	int* player_one_position = new int[2];
 	player_one_position[0] = 100;
@@ -96,20 +96,20 @@ int main(int argc, char* argv[])
 			{
 				if (event.key.code == sf::Keyboard::W)
 				{
-					player_one.is_moving_up = true;
+					player_one.m_is_moving_up = true;
 				}
 				if (event.key.code == sf::Keyboard::S)
 				{
-					player_one.is_moving_down = true;
+					player_one.m_is_moving_down = true;
 				}
 
 				if (event.key.code == sf::Keyboard::Up)
 				{
-					player_two.is_moving_up = true;
+					player_two.m_is_moving_up = true;
 				}
 				if (event.key.code == sf::Keyboard::Down)
 				{
-					player_two.is_moving_down = true;
+					player_two.m_is_moving_down = true;
 				}
 			}
 
@@ -117,24 +117,25 @@ int main(int argc, char* argv[])
 			{
 				if (event.key.code == sf::Keyboard::W)
 				{
-					player_one.is_moving_up = false;
+					player_one.m_is_moving_up = false;
 				}
 				if (event.key.code == sf::Keyboard::S)
 				{
-					player_one.is_moving_down = false;
+					player_one.m_is_moving_down = false;
 				}
 
 				if (event.key.code == sf::Keyboard::Up)
 				{
-					player_two.is_moving_up = false;
+					player_two.m_is_moving_up = false;
 				}
 				if (event.key.code == sf::Keyboard::Down)
 				{
-					player_two.is_moving_down = false;
+					player_two.m_is_moving_down = false;
 				}
 
 				if (
 					event.key.code == sf::Keyboard::Space
+					&& !game.get_is_complete()
 					&& !game.get_is_paused()
 					&& !ball.get_is_moving()
 				)
@@ -142,9 +143,22 @@ int main(int argc, char* argv[])
 					ball.set_is_moving(true);
 				}
 
-				if (event.key.code == sf::Keyboard::Escape)
+				if (
+					event.key.code == sf::Keyboard::Escape
+					&& !game.get_is_complete())
 				{
 					game.set_is_paused(!game.get_is_paused());
+				}
+
+				if (
+					event.key.code == sf::Keyboard::R
+					&& game.get_is_complete()
+				)
+				{
+					game.reset();
+					ball.reset();
+					player_one.reset();
+					player_two.reset();
 				}
 			}
 		}
@@ -155,7 +169,6 @@ int main(int argc, char* argv[])
 
 		if (game.get_is_complete())
 		{
-			// draw win screen
 			draw_win_screen(render_window, text, game, player_one, player_two);
 		}
 		else
@@ -438,17 +451,17 @@ void update_ball(
 
 void update_player(sf::RenderWindow& render_window, Player& player)
 {
-	if (player.is_moving_up)
+	if (player.m_is_moving_up)
 	{
 		if (player.get_position()[1] > 0)
 		{
 			player.set_position(new int[2] {
 				player.get_position()[0],
-				player.get_position()[1] - (int) player.speed
+				player.get_position()[1] - (int) player.get_speed()
 			});
 		}
 	}
-	if (player.is_moving_down)
+	if (player.m_is_moving_down)
 	{
 		if (
 			player.get_position()[1] + player.get_dimensions()[1]
@@ -457,7 +470,7 @@ void update_player(sf::RenderWindow& render_window, Player& player)
 		{
 			player.set_position(new int[2] {
 				player.get_position()[0],
-				player.get_position()[1] + (int) player.speed
+				player.get_position()[1] + (int) player.get_speed()
 			});
 		}
 	}
