@@ -85,17 +85,19 @@ A list of tasks related to the complete of this pong project.
 - [ ] Paddle
     - [x] Colour
     - [x] Height
+    - [ ] Position
+    - [ ] Initial position
     - [ ] Name
     - [x] Speed
 - [ ] Ball
-    - [ ] Colour of a ball can be modified
-    - [ ] Point count of a ball can be modified
-    - [ ] Radius of a ball can be modified
+    - [ ] Colour
+    - [ ] Point count
+    - [ ] Radius
     - [ ] Velocity
-        - [ ] Initial velocity of a ball can be modified
-        - [ ] Velocity of a ball can be modified
-        - [ ] Can choose the match initial velocity changes with velocity
-        changes and vice versa
+        - [ ] Current velocity
+        - [ ] Initial velocity
+    - [ ] Player can choose the match initial velocity changes with velocity
+    changes and vice versa
 
 #### Maintenance
 

@@ -212,9 +212,9 @@ int main(int argc, char* argv[])
 				ImGui::SliderInt("Speed##player_two", &player_two.m_speed, 1, 20);
 				float* player_two_colour = new float[3] {
 					player_two.get_colour()[0] / 255.0f,
-						player_two.get_colour()[1] / 255.0f,
-						player_two.get_colour()[2] / 255.0f
-					};
+					player_two.get_colour()[1] / 255.0f,
+					player_two.get_colour()[2] / 255.0f
+				};
 				ImGui::ColorEdit3("Colour##player_two", player_two_colour);
 				player_two.set_colour(new int[3] {
 					(int) (player_two_colour[0] * 255),
@@ -226,6 +226,17 @@ int main(int argc, char* argv[])
 			}
 			if (ImGui::BeginTabItem("Ball"))
 			{
+				float* ball_colour = new float[3] {
+					ball.get_colour()[0] / 255.0f,
+					ball.get_colour()[1] / 255.0f,
+					ball.get_colour()[2] / 255.0f
+				};
+				ImGui::ColorEdit3("Ball##ball", ball_colour);
+				ball.set_colour(new int[3] {
+					(int) (ball_colour[0] * 255.0f),
+					(int) (ball_colour[1] * 255.0f),
+					(int) (ball_colour[2] * 255.0f)
+				});
 
 				ImGui::EndTabItem();
 			}
