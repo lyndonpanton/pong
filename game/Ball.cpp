@@ -15,7 +15,7 @@ Ball::Ball()
 
 Ball::Ball(const Ball& ball)
 	: m_position(ball.get_position())
-	, m_position_initial(new int[2] { m_position[0], m_position[1]})
+	, m_position_initial(ball.get_position_initial())
 	, m_radius(ball.get_radius())
 	, m_point_count(ball.get_point_count())
 	, m_velocity(ball.get_velocity())
@@ -108,7 +108,8 @@ void Ball::set_position(int* position)
 
 void Ball::set_position_initial(int* position)
 {
-	m_position_initial = position;
+	//m_position_initial = position;
+	m_position_initial = new int[2] { position[0], position[1] };
 }
 
 void Ball::set_radius(int radius)
@@ -123,7 +124,8 @@ void Ball::set_velocity(float* velocity)
 
 void Ball::set_velocity_initial(float* velocity)
 {
-	m_velocity_initial = velocity;
+	//m_velocity_initial = velocity;
+	m_velocity_initial = new float[2] { velocity[0], velocity[1] };
 }
 
 void Ball::set_is_moving(bool is_moving)
@@ -132,10 +134,45 @@ void Ball::set_is_moving(bool is_moving)
 }
 
 /* Other *********************************************************************/
+void Ball::bounce()
+{
+
+}
+
+void Ball::collide(Player& player)
+{
+	set_velocity(new float[2] {
+		get_velocity()[0] * -1,
+		get_velocity()[1]
+	});
+}
+
+void Ball::reflect()
+{
+	set_velocity(new float[2] { get_velocity()[0], get_velocity()[1] * -1 });
+}
+
 void Ball::reset()
 {
 	set_position(m_position_initial);
 	// change to calculate new random velocity instead
 	set_velocity(m_velocity_initial);
+}
 
+void Ball::reset(Player& player)
+{
+	player.set_score(player.get_score() + 1);
+	set_position(m_position_initial);
+	// change to calculate new random velocity instead
+	set_velocity(m_velocity_initial);
+	std::cout << "Position reset: " << get_position()[0] << ", "
+		<< get_position()[1] << std::endl;
+}
+
+void Ball::update()
+{
+	set_position(new int[2] {
+		get_position()[0] + (int)get_velocity()[0],
+		get_position()[1] + (int)get_velocity()[1]
+	});
 }

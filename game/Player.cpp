@@ -6,8 +6,9 @@ Player::Player()
 	, m_name("???")
 	, m_position(new int[2] { 100, 100 })
 	, m_position_initial(m_position)
-	, m_dimensions(new int[2] { 20, 80 })
+	, m_dimension(new int[2] { 20, 80 })
 	, m_colour(new int[3] { 127, 127, 127 })
+	, m_speed(4)
 {
 }
 
@@ -15,25 +16,28 @@ Player::Player(const Player& player)
 	: m_player_type(player.get_player_type())
 	, m_name(player.get_name())
 	, m_position(player.get_position())
-	, m_dimensions(player.get_dimensions())
+	, m_dimension(player.get_dimension())
 	, m_colour(player.get_colour())
+	, m_speed(player.get_speed())
 {
 
 }
 
 Player::Player(
 	PlayerType player_type,
-	const char* name,
+	std::string name,
 	int* position,
-	int* dimensions,
-	int* colours
+	int* dimension,
+	int* colours,
+	int speed
 )
 	: m_player_type(player_type)
 	, m_name(name)
 	, m_position(position)
 	, m_position_initial(m_position)
-	, m_dimensions(dimensions)
+	, m_dimension(dimension)
 	, m_colour(colours)
+	, m_speed(speed)
 {
 
 }
@@ -49,7 +53,7 @@ const PlayerType Player::get_player_type() const
 	return m_player_type;
 }
 
-const char* Player::get_name() const
+std::string Player::get_name() const
 {
 	return m_name;
 }
@@ -64,9 +68,9 @@ int* Player::get_position_initial() const
 	return m_position_initial;
 }
 
-int* Player::get_dimensions() const
+int* Player::get_dimension() const
 {
-	return m_dimensions;
+	return m_dimension;
 }
 
 int* Player::get_colour() const
@@ -89,7 +93,7 @@ void Player::set_player_type(PlayerType player_type)
 	m_player_type = player_type;
 }
 
-void Player::set_name(const char* name)
+void Player::set_name(std::string name)
 {
 	m_name = name;
 }
@@ -116,15 +120,15 @@ void Player::set_position_initial(int x, int y)
 	m_position_initial[1] = y;
 }
 
-void Player::set_dimensions(int* dimensions)
+void Player::set_dimension(int* dimension)
 {
-	m_dimensions = dimensions;
+	m_dimension = dimension;
 }
 
-void Player::set_dimensions(int width, int height)
+void Player::set_dimension(int width, int height)
 {
-	m_dimensions[0] = width;
-	m_dimensions[1] = height;
+	m_dimension[0] = width;
+	m_dimension[1] = height;
 }
 
 void Player::set_colour(int* colour)
@@ -150,8 +154,37 @@ void Player::set_speed(float speed)
 }
 
 /* Other *********************************************************************/
+void move(bool is_moving_up)
+{
+
+}
+
 void Player::reset()
 {
 	m_position = new int[2] { m_position_initial[0], m_position_initial[1] };
 	m_score = 0;
+}
+
+void Player::update(int window_height)
+{
+	if (m_is_moving_up)
+	{
+		if (get_position()[1] > 0)
+		{
+			set_position(new int[2] {
+				get_position()[0],
+				get_position()[1] - (int)get_speed()
+			});
+		}
+	}
+	if (m_is_moving_down)
+	{
+		if (get_position()[1] + get_dimension()[1] < window_height)
+		{
+			set_position(new int[2] {
+				get_position()[0],
+				get_position()[1] + (int)get_speed()
+			});
+		}
+	}
 }

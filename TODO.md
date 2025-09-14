@@ -30,7 +30,9 @@ A list of tasks related to the complete of this pong project.
 - [x] Draw ball
 - [x] Move ball in the pre-defined direction on start
 - [x] Handle collisions between ball and horizontal edges
-- [ ] Move ball in random direction on start(within boundary)
+- [ ] Move ball with a random velocity on start (within range)
+    - [ ] Direction should be random (within range)
+    - [ ] Speed should be random (within range)
 - [x] Move ball on keypress on start (default key: Spacebar)
 - [x] Handle collisions between ball and vertical edges
     - [x] Give players a "points" member
@@ -42,8 +44,8 @@ A list of tasks related to the complete of this pong project.
         - [x] Hitting top or bottom of padding should reverse the y
         velocity of the ball
             - [x] Prioritise front of paddle over top and bottom of paddle
-        - [ ] Change velocity of ball based on what section of "front" edge
-        was hit
+    - [ ] Change velocity of ball based on what section of "front" edge
+    was hit
 - [x] Game can be won (default: 10 points)
 - [x] Game can be paused and unpaused (default key: Escape)
 - [x] Game can be restarted (default key: R)
@@ -122,6 +124,7 @@ A list of tasks related to the complete of this pong project.
 ### Bugs
 
 - [ ] Custom mouse cursor displays under top window bar
+- [ ] Pause message is not displaying
 
 ## Notes
 

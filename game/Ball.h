@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include "Player.h"
+
 class Ball
 {
 
@@ -41,7 +43,12 @@ public:
 	void set_velocity_initial(float*);
 	void set_is_moving(bool);
 
+	void bounce(); // overlap with top or bottom of paddle
+	void collide(Player&); // overlap with "front" of paddle
+	void reflect(); // overlap with top or bottom window edge
 	void reset();
+	void reset(Player&); // overlap with left or right window edge
+	void update();
 };
 
 #endif BALL_H;

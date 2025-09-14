@@ -1,13 +1,16 @@
 #include <iostream>
+#include <fstream>
 
 #include "imgui.h"
 #include "imgui-SFML.h"
 #include "SFML/Graphics.hpp"
 
 #include "Game.h"
+#include "Divider.h"
 #include "PlayerType.h"
 #include "Player.h"
 #include "Ball.h"
+#include "UI.h"
 
 void draw_ball(sf::RenderWindow&, Ball&);
 void draw_divider(sf::RenderWindow&);
@@ -16,107 +19,80 @@ void draw_player(sf::RenderWindow&, Player&);
 void draw_score(sf::RenderWindow&, sf::Text&, Game&, Player&);
 void draw_win_screen(sf::RenderWindow&, sf::Text&, Game&, Player&, Player&);
 
-void load_font(sf::RenderWindow&, sf::Text&, sf::Font&);
-void load_cursor(sf::RenderWindow&, sf::Cursor&, sf::Image&);
+void load_config(
+	std::string,
+	sf::RenderWindow&,
+	sf::Image&,
+	sf::Texture&,
+	sf::Sprite&,
+	sf::Text&,
+	sf::Font&,
+	Game&,
+	Divider&,
+	Player&,
+	Player&,
+	Ball&,
+	UI&
+);
+void load_config_ball(std::ifstream&, Ball&);
+void load_config_cursor(
+	std::ifstream&,
+	sf::RenderWindow&,
+	sf::Texture&,
+	sf::Sprite&
+);
+void load_config_divider(std::ifstream&, Divider&);
+void load_config_font(std::ifstream&, sf::Text&, sf::Font&);
+void load_config_game(std::ifstream&, Game&);
+void load_config_player(std::ifstream&, Player&, int);
+void load_config_ui(std::ifstream&, UI&);
+void load_config_window(
+	std::ifstream&,
+	sf::RenderWindow&,
+	sf::Image&
+);
 
 void update_player(sf::RenderWindow&, Player&);
 void update_ball(sf::RenderWindow&, Game&, Player&, Player&, Ball&);
 
 int main(int argc, char* argv[])
 {
-
-	sf::RenderWindow render_window(sf::VideoMode(1080, 720), "Pong", sf::Style::Close);
-	render_window.setFramerateLimit(60);
-	render_window.setMouseCursorVisible(false);
-	render_window.setVisible(true);
+	sf::RenderWindow render_window;
 	sf::Image render_window_icon;
-
-	if (!render_window_icon.loadFromFile("image/icon-pong.png"))
-	{
-		std::cerr << "Error: Window icon file could not be loaded" << std::endl;
-		std::cout << "System default window icon will be used" << std::endl;
-	}
-
-	render_window.setIcon(
-		render_window_icon.getSize().x,
-		render_window_icon.getSize().y,
-		render_window_icon.getPixelsPtr()
-	);
-
-	sf::Cursor cursor;
-	sf::Texture cursor_image;
+	//sf::Cursor cursor;
+	sf::Texture cursor_texture;
 	sf::Sprite cursor_sprite;
-
-	if (!cursor_image.loadFromFile("image/cursor.png"))
-	{
-		std::cerr << "Error: Cursor file could not be loaded" << std::endl;
-		std::cout << "System default cursor icon will be used" << std::endl;
-	}
-
-	cursor_sprite.setTexture(cursor_image);
-
-
-	/*if (cursor.loadFromSystem(sf::Cursor::Wait))
-	{
-		render_window.setMouseCursor(cursor);
-	}
-
-	load_cursor(render_window, cursor, cursor_image);*/
-
 	sf::Text text;
 	sf::Font font;
-	load_font(render_window, text, font);
+	Game game;
+	Divider divider;
+	Player player_one;
+	Player player_two;
+	Ball ball;
+	UI ui;
+
+	load_config(
+		"config.txt",
+		render_window,
+		render_window_icon,
+		cursor_texture,
+		cursor_sprite,
+		text,
+		font,
+		game,
+		divider,
+		player_one,
+		player_two,
+		ball,
+		ui
+	);
 
 	ImGui::SFML::Init(render_window);
 	ImGui::GetStyle().ScaleAllSizes(1.5f);
 	ImGui::GetIO().FontGlobalScale = 1.5f;
 	sf::Clock delta_clock;
 
-	Game game(1, 96, 56, "PAUSED");
-
-	int* player_one_position = new int[2];
-	player_one_position[0] = 100;
-	player_one_position[1] = 310;
-	int* player_one_dimension = new int[2];
-	player_one_dimension[0] = 20;
-	player_one_dimension[1] = 100;
-	int* player_one_colour = new int[3];
-	player_one_colour[0] = 255;
-	player_one_colour[1] = 255;
-	player_one_colour[2] = 255;
-
-	int* player_two_position = new int[2];
-	player_two_position[0] = 980;
-	player_two_position[1] = 310;
-	int* player_two_dimension = new int[2];
-	player_two_dimension[0] = 20;
-	player_two_dimension[1] = 100;
-	int* player_two_colour = new int[3];
-	player_two_colour[0] = 255;
-	player_two_colour[1] = 255;
-	player_two_colour[2] = 255;
-
-	Player player_one(
-		PlayerType::ONE,
-		"Player One",
-		player_one_position,
-		player_one_dimension,
-		player_one_colour
-	);
-	Player player_two(
-		PlayerType::TWO,
-		"Player Two",
-		player_two_position,
-		player_two_dimension,
-		player_two_colour
-	);
-	Ball ball(
-		new int[2] { 530, 350 },
-		10,
-		32,
-		new float[2] { -2, 2 },
-		new int[3] { 255, 255, 255 }
-	);
+	std::cout << render_window.isOpen() << std::endl;
 
 	while (render_window.isOpen())
 	{
@@ -213,8 +189,8 @@ int main(int argc, char* argv[])
 		{
 			if (!game.get_is_paused())
 			{
-				update_player(render_window, player_one);
-				update_player(render_window, player_two);
+				player_one.update(render_window.getView().getSize().y);
+				player_two.update(render_window.getView().getSize().y);
 
 				if (ball.get_is_moving())
 					update_ball(render_window, game, player_one, player_two, ball);
@@ -286,8 +262,8 @@ void draw_pause_message(sf::RenderWindow& render_window, sf::Text& text, Game& g
 void draw_player(sf::RenderWindow& render_window, Player& player)
 {
 	sf::RectangleShape player_shape(sf::Vector2f(
-		player.get_dimensions()[0],
-		player.get_dimensions()[1]
+		player.get_dimension()[0],
+		player.get_dimension()[1]
 	));
 	player_shape.setPosition(
 		player.get_position()[0],
@@ -329,62 +305,286 @@ void draw_win_screen(
 	if (game.get_winner() == PlayerType::ONE)
 	{
 		win_message = player_one.get_name();
-		win_message += " (P1)";
+		//win_message += " (P1)";
 	}
 	else
 	{
 		win_message = player_two.get_name();
-		win_message += " (P2)";
+		//win_message += " (P2)";
 	}
 	
 	win_message += " wins!";
 
-	text.setCharacterSize(game.get_font_win_screen_size());
+	text.setCharacterSize(80);
 	text.setString(win_message);
-	text.setPosition(render_window.getSize().x / 2.0f - 260, render_window.getSize().y / 2.0f - 80);
+	text.setPosition(render_window.getSize().x / 2.0f - 160, render_window.getSize().y / 2.0f - 80);
 
 	render_window.draw(text);
 }
 
-void load_cursor(
+void load_config(
+	std::string file_path,
 	sf::RenderWindow& render_window,
-	sf::Cursor& cursor,
-	sf::Image& cursor_image
+	sf::Image& render_window_icon,
+	sf::Texture& cursor_texture,
+	sf::Sprite& cursor_sprite,
+	sf::Text& text,
+	sf::Font& font,
+	Game& game,
+	Divider& divider,
+	Player& player_one,
+	Player& player_two,
+	Ball& ball,
+	UI& ui
 )
 {
-	//
-	//if (!cursor_image.loadFromFile("image/cursor.png"))
-	//{
-	//	std::cerr << "Error: Cursor file could not be loaded" << std::endl;
-	//	std::cout << "System default cursor icon will be used" << std::endl;
-	//}
+	int player_index = 1;
 
-	//cursor.loadFromPixels(cursor_image.getPixelsPtr(), sf::Vector2u(64, 64), sf::Vector2u(0, 0));
-	if (cursor.loadFromSystem(sf::Cursor::Wait))
+	std::string current_token;
+	std::ifstream file_stream(file_path);
+
+	while (file_stream >> current_token)
 	{
-		render_window.setMouseCursor(cursor);
+		if (current_token == "WINDOW")
+		{
+			load_config_window(file_stream, render_window, render_window_icon);
+		}
+		else if (current_token == "CURSOR")
+		{
+			load_config_cursor(
+				file_stream,
+				render_window,
+				cursor_texture,
+				cursor_sprite
+			);
+		}
+		else if (current_token == "FONT")
+		{
+			load_config_font(file_stream, text, font);
+		}
+		else if (current_token == "GAME")
+		{
+			load_config_game(file_stream, game);
+		}
+		else if (current_token == "DIVIDER")
+		{
+			load_config_divider(file_stream, divider);
+		}
+		else if (current_token == "PLAYER")
+		{
+			if (player_index == 1)
+			{
+				std::cout << "Player 1 loaded" << std::endl;
+				load_config_player(file_stream, player_one, player_index++);
+			}
+			else {
+				std::cout << "Player 2 loaded" << std::endl;
+				load_config_player(file_stream, player_two, player_index++);
+			}
+		}
+		else if (current_token == "BALL")
+		{
+			load_config_ball(file_stream, ball);
+		}
+		else if (current_token == "UI")
+		{
+			load_config_ui(file_stream, ui);
+		}
 	}
 }
 
-void load_font(sf::RenderWindow& render_window, sf::Text& text, sf::Font& font)
+void load_config_ball(std::ifstream& file_stream, Ball& ball)
 {
-	std::string font_path = "font/arial.ttf";
-	int font_size = 96;
-	int font_colour_red = 255;
-	int font_colour_green = 255;
-	int font_colour_blue = 255;
+	int position_x;
+	int position_y;
+	int radius;
+	int point_count;
+	float velocity_x;
+	float velocity_y;
+	int colour_red;
+	int colour_green;
+	int colour_blue;
 
-	if (!font.loadFromFile(font_path))
+	file_stream >> position_x >> position_y >> radius >> point_count
+		>> velocity_x >> velocity_y >> colour_red >> colour_green
+		>> colour_blue;
+
+	ball.set_position(new int[2] { position_x, position_y });
+	ball.set_position_initial(new int[2] { position_x, position_y });
+	ball.set_radius(radius);
+	ball.set_point_count(point_count);
+	ball.set_velocity(new float[2] { velocity_x, velocity_y });
+	ball.set_velocity_initial(new float[2] { velocity_x, velocity_y });
+	ball.set_colour(new int[3] { colour_red, colour_green, colour_blue });
+}
+
+void load_config_cursor(
+	std::ifstream& file_stream,
+	sf::RenderWindow& render_window,
+	sf::Texture& cursor_texture,
+	sf::Sprite& cursor_sprite
+)
+{
+
+	if (!cursor_texture.loadFromFile("image/cursor.png"))
 	{
-		std::cerr << "Error: Font file could not be loaded" << std::endl;
-		exit(1);
+		std::cerr << "Error: Cursor file could not be loaded" << std::endl;
+		std::cout << "System default cursor icon will be used" << std::endl;
 	}
 
-	text.setFont(font);
-	text.setCharacterSize(font_size);
-	text.setFillColor(sf::Color(
-		font_colour_red, font_colour_green, font_colour_blue
-	));
+	cursor_sprite.setTexture(cursor_texture);
+}
+
+void load_config_divider(std::ifstream& file_stream, Divider& divider)
+{
+	int width;
+	int height;
+	int gap;
+	int colour_red;
+	int colour_green;
+	int colour_blue;
+
+	file_stream >> width >> height >> gap >> colour_red >> colour_green
+		>> colour_blue;
+
+	divider.set_colour(colour_red, colour_green, colour_blue);
+	divider.set_dimension(width, height);
+	divider.set_gap(gap);
+}
+
+void load_config_font(std::ifstream& file_stream, sf::Text& text, sf::Font& font)
+{
+	std::string font_file_path;
+	int font_size;
+	int font_colour_red;
+	int font_colour_green;
+	int font_colour_blue;
+
+	file_stream >> font_file_path >> font_size >> font_colour_red
+		>> font_colour_green >> font_colour_blue;
+
+	if (!font.loadFromFile(font_file_path))
+	{
+		std::cerr << "Error: Font file could not be loaded" << std::endl;
+		std::cout << "System default font will be used" << std::endl;
+	}
+	else
+	{
+		text.setFont(font);
+		text.setCharacterSize(font_size);
+		text.setFillColor(sf::Color(
+			font_colour_red,
+			font_colour_green,
+			font_colour_blue
+		));
+	}
+}
+
+void load_config_game(std::ifstream& file_stream, Game& game)
+{
+	int target_score;
+	int pause_message_offset_x;
+	int pause_message_offset_y;
+	std::string pause_message;
+
+	file_stream >> target_score >> pause_message_offset_x >> pause_message_offset_y
+		>> pause_message;
+
+	game.set_target_score(target_score);
+	game.set_pause_message(pause_message);
+	game.set_pause_message_offset(
+		pause_message_offset_x, pause_message_offset_y
+	);
+}
+
+void load_config_player(std::ifstream& file_stream, Player& player, int player_index)
+{
+	std::string name;
+	int position_x;
+	int position_y;
+	int width;
+	int height;
+	int speed;
+	int colour_red;
+	int colour_green;
+	int colour_blue;
+
+	file_stream >> name >> position_x >> position_y >> width >> height >> speed
+		>> colour_red >> colour_green >> colour_blue;
+
+	if (player_index == 1)
+		player.set_player_type(PlayerType::ONE);
+	else
+		player.set_player_type(PlayerType::TWO);
+	player.set_name(name);
+	player.set_position(new int[2] { position_x, position_y });
+	player.set_position_initial(new int[2] { position_x, position_y });
+	player.set_dimension(new int[3] { width, height });
+	player.set_speed(speed);
+	player.set_colour(new int[3] { colour_red, colour_green, colour_blue });
+}
+
+void load_config_ui(std::ifstream& file_stream, UI& ui)
+{
+	int player_one_score_position_x;
+	int player_one_score_position_y;
+	int player_two_score_position_x;
+	int player_two_score_position_y;
+	int pause_message_position_x;
+	int pause_message_position_y;
+
+	file_stream >> player_one_score_position_x >> player_one_score_position_y
+		>> player_two_score_position_x >> player_two_score_position_y
+		>> pause_message_position_x >> pause_message_position_y;
+
+	ui.set_player_one_score_position(
+		player_one_score_position_x, player_one_score_position_y
+	);
+	ui.set_player_two_score_position(
+		player_two_score_position_x, player_two_score_position_y
+	);
+	ui.set_pause_message_position(
+		pause_message_position_x, pause_message_position_y
+	);
+}
+
+void load_config_window(
+	std::ifstream& file_stream,
+	sf::RenderWindow& render_window,
+	sf::Image& icon
+)
+{
+	std::string title;
+	int width;
+	int height;
+	int framerate_limit;
+	int is_visible;
+	int is_cursor_visible;
+	std::string icon_file_path;
+
+	file_stream >> title >> width >> height >> framerate_limit >> is_visible
+		>> is_cursor_visible >> icon_file_path;
+
+	render_window.create(sf::VideoMode(width, height), title);
+	render_window.setFramerateLimit(framerate_limit);
+	render_window.setVisible(is_visible);
+	std::cout << "Visible: " << is_visible << std::endl;
+	render_window.setMouseCursorVisible(is_cursor_visible);
+	
+	if (!icon.loadFromFile(icon_file_path))
+	{
+		std::cerr << "Error: Window icon file could not be loaded" << std::endl;
+		std::cout << "System default window icon will be used" << std::endl;
+		exit(1);
+	}
+	else
+	{
+		render_window.setIcon(
+			icon.getSize().x,
+			icon.getSize().y,
+			icon.getPixelsPtr()
+		);
+	}
 }
 
 void update_ball(
@@ -395,35 +595,28 @@ void update_ball(
 	Ball& ball
 )
 {
-
-	// Ball / environment (vertical edge) collision
 	if (
 		ball.get_position()[0] + (ball.get_radius() * 2)
 			<= 0
 	)
 	{
-		player_two.set_score(player_two.get_score() + 1);
-		ball.reset();
+		ball.reset(player_two);
 	}
-	
-	if (
+	else if (
 		// render_window.getSize().x was not working?
 		ball.get_position()[0] >= render_window.getView().getSize().x
 	)
 	{	
-		player_one.set_score(player_one.get_score() + 1);
-		ball.reset();
+		ball.reset(player_one);
 	}
 
 	if (player_one.get_score() == game.get_target_score())
 	{
-		game.set_is_complete(true);
-		game.set_winner(player_one.get_player_type());
+		game.finish(player_one);
 	}
 	else if (player_two.get_score() == game.get_target_score())
 	{
-		game.set_is_complete(true);
-		game.set_winner(player_two.get_player_type());
+		game.finish(player_two);
 	}
 
 	// Ball / environment (horizontal edge) collision
@@ -432,19 +625,16 @@ void update_ball(
 		|| ball.get_position()[1] + ball.get_radius() * 2 > render_window.getSize().y
 	)
 	{
-		ball.set_velocity(new float[2] {
-			ball.get_velocity()[0],
-			ball.get_velocity()[1] * -1
-		});
+		ball.reflect();
 	}
 
 	// Ball / player one (front edge) collision
 	if (
 		(
 			ball.get_position()[0] <= player_one.get_position()[0]
-				+ player_one.get_dimensions()[0]
+				+ player_one.get_dimension()[0]
 			&& ball.get_position()[0] >= player_one.get_position()[0]
-				+ player_one.get_dimensions()[0]
+				+ player_one.get_dimension()[0]
 		)
 		&& ball.get_velocity()[0] < 0
 	)
@@ -454,32 +644,27 @@ void update_ball(
 				>= player_one.get_position()[1]
 			&& ball.get_position()[1]
 				<= player_one.get_position()[1]
-				+ player_one.get_dimensions()[1]
+				+ player_one.get_dimension()[1]
 		)
 		{
-			ball.set_velocity(new float[2] {
-				ball.get_velocity()[0] * -1,
-				ball.get_velocity()[1]
-			});
+			ball.collide(player_one);
 		}
 	}
 	else if (
 		ball.get_position()[0] + (ball.get_radius() * 2)
 			>= player_one.get_position()[0]
 		&& ball.get_position()[0]
-			<= player_one.get_position()[0] + player_one.get_dimensions()[0]
+			<= player_one.get_position()[0] + player_one.get_dimension()[0]
 	)
 	{
 		if (
 			ball.get_position()[1] + (ball.get_radius() * 2)
 				>= player_one.get_position()[1]
 			&& ball.get_position()[1]
-				<= player_one.get_position()[1] + player_one.get_dimensions()[1]
+				<= player_one.get_position()[1] + player_one.get_dimension()[1]
 		)
 		{
-			ball.set_velocity(new float[2] {
-				ball.get_velocity()[0], ball.get_velocity()[1] * -1
-			});
+			ball.reflect();
 		}
 	}
 
@@ -499,66 +684,29 @@ void update_ball(
 				>= player_two.get_position()[1]
 			&& ball.get_position()[1]
 				<= player_two.get_position()[1]
-				+ player_two.get_dimensions()[1]
+				+ player_two.get_dimension()[1]
 			)
 		{
-			ball.set_velocity(new float[2] {
-				ball.get_velocity()[0] * -1,
-				ball.get_velocity()[1]
-			});
+			ball.collide(player_two);
 		}
 	}
 	else if (
 		ball.get_position()[0] + (ball.get_radius() * 2)
 			>= player_two.get_position()[0]
 		&& ball.get_position()[0]
-			<= player_two.get_position()[0] + player_two.get_dimensions()[0]
+			<= player_two.get_position()[0] + player_two.get_dimension()[0]
 	)
 	{
 		if (
 			ball.get_position()[1] + (ball.get_radius() * 2)
 				>= player_two.get_position()[1]
 			&& ball.get_position()[1] 
-				<= player_two.get_position()[1] + player_two.get_dimensions()[1]
+				<= player_two.get_position()[1] + player_two.get_dimension()[1]
 			)
 		{
-			ball.set_velocity(new float[2] {
-				ball.get_velocity()[0], ball.get_velocity()[1] * -1
-			});
+			ball.reflect();
 		}
 	}
 
-
-	// update ball position
-	ball.set_position(new int[2] {
-		ball.get_position()[0] + (int) ball.get_velocity()[0],
-		ball.get_position()[1] + (int) ball.get_velocity()[1]
-	});
-}
-
-void update_player(sf::RenderWindow& render_window, Player& player)
-{
-	if (player.m_is_moving_up)
-	{
-		if (player.get_position()[1] > 0)
-		{
-			player.set_position(new int[2] {
-				player.get_position()[0],
-				player.get_position()[1] - (int) player.get_speed()
-			});
-		}
-	}
-	if (player.m_is_moving_down)
-	{
-		if (
-			player.get_position()[1] + player.get_dimensions()[1]
-				< render_window.getSize().y
-		)
-		{
-			player.set_position(new int[2] {
-				player.get_position()[0],
-				player.get_position()[1] + (int) player.get_speed()
-			});
-		}
-	}
+	ball.update();
 }
