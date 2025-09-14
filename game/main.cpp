@@ -233,6 +233,7 @@ int main(int argc, char* argv[])
 					ball.get_colour()[1] / 255.0f,
 					ball.get_colour()[2] / 255.0f
 				};
+				ImGui::SliderFloat2("Velocity", ball.m_velocity, -10, 10);
 				ImGui::ColorEdit3("Ball##ball", ball_colour);
 				ball.set_colour(new int[3] {
 					(int) (ball_colour[0] * 255.0f),

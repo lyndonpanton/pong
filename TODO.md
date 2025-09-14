@@ -92,7 +92,7 @@ A list of tasks related to the complete of this pong project.
 - [ ] Ball
     - [x] Colour
     - [x] Point count
-    - [ ] Radius
+    - [x] Radius
     - [ ] Velocity
         - [ ] Current velocity
         - [ ] Initial velocity
@@ -127,6 +127,7 @@ A list of tasks related to the complete of this pong project.
 ### Bugs
 
 - [ ] Custom mouse cursor displays under top window bar
+- [ ] Custom mouse cursor displays under imgui window
 - [ ] Pause message is not displaying
 
 ## Notes
