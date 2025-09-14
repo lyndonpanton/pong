@@ -4,6 +4,7 @@
 #define PLAYER_H
 
 #include <iostream>
+#include <algorithm>
 #include "PlayerType.h"
 
 class Player
@@ -12,7 +13,7 @@ class Player
 public:
 	int* m_colour;
 	int* m_dimension;
-	std::string m_name;
+	char m_name[25];
 	enum PlayerType m_player_type;
 	int* m_position;
 	int* m_position_initial;
@@ -23,13 +24,13 @@ public:
 	bool m_is_moving_down = false;
 
 	Player();
-	Player(const Player&);
-	Player(PlayerType, std::string, int*, int*, int*, int);
+	Player(Player&);
+	Player(PlayerType, char*, int*, int*, int*, int);
 	~Player();
 
 	int* get_colour() const;
 	int* get_dimension() const;
-	std::string get_name() const;
+	char* get_name();
 	const PlayerType get_player_type() const;
 	int* get_position() const;
 	int* get_position_initial() const;
@@ -40,7 +41,7 @@ public:
 	void set_colour(int, int, int);
 	void set_dimension(int*);
 	void set_dimension(int, int);
-	void set_name(std::string);
+	void set_name(char*);
 	void set_player_type(PlayerType player_type);
 	void set_position(int*);
 	void set_position(int, int);

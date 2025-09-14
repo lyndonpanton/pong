@@ -185,14 +185,15 @@ int main(int argc, char* argv[])
 		{
 			if (ImGui::BeginTabItem("Game"))
 			{
-				ImGui::InputInt("Target Score", &game.m_target_score, 1);
-				ImGui::Checkbox("Is Paused", &game.m_is_paused);
+				ImGui::InputInt("Target Score##game", &game.m_target_score, 1);
+				ImGui::Checkbox("Is Paused##game", &game.m_is_paused);
 
 				ImGui::EndTabItem();
 			}
 			if (ImGui::BeginTabItem("Player"))
 			{
 				ImGui::Text("Player 1");
+				ImGui::InputText("Name##player_one", player_one.m_name, 25);
 				ImGui::SliderInt(
 					"Initial Y Position##player_one",
 					&player_one.m_position_initial[1],
@@ -200,7 +201,7 @@ int main(int argc, char* argv[])
 					render_window.getSize().y - player_one.get_dimension()[1]
 				);
 				ImGui::SliderInt(
-					"Current Y Position#player_one",
+					"Current Y Position##player_one",
 					&player_one.m_position[1],
 					0,
 					render_window.getSize().y - player_one.get_dimension()[1]
@@ -220,6 +221,7 @@ int main(int argc, char* argv[])
 				});
 
 				ImGui::Text("Player 2");
+				ImGui::InputText("Name##player_two", player_two.m_name, 25);
 				ImGui::SliderInt(
 					"Initial Y Position##player_two",
 					&player_two.m_position_initial[1],
@@ -227,7 +229,7 @@ int main(int argc, char* argv[])
 					render_window.getSize().y - player_two.get_dimension()[1]
 				);
 				ImGui::SliderInt(
-					"Current Y Position#player_two",
+					"Current Y Position##player_two",
 					&player_two.m_position[1],
 					0,
 					render_window.getSize().y - player_two.get_dimension()[1]
@@ -250,14 +252,14 @@ int main(int argc, char* argv[])
 			}
 			if (ImGui::BeginTabItem("Ball"))
 			{
-				ImGui::SliderInt("Radius", &ball.m_radius, 5, 50);
-				ImGui::SliderInt("Point count", &ball.m_point_count, 4, 32);
+				ImGui::SliderInt("Radius##ball", &ball.m_radius, 5, 50);
+				ImGui::SliderInt("Point count##ball", &ball.m_point_count, 4, 32);
 				float* ball_colour = new float[3] {
 					ball.get_colour()[0] / 255.0f,
 					ball.get_colour()[1] / 255.0f,
 					ball.get_colour()[2] / 255.0f
 				};
-				ImGui::SliderFloat2("Velocity", ball.m_velocity, -10, 10);
+				ImGui::SliderFloat2("Velocity##ball", ball.m_velocity, -10, 10);
 				ImGui::ColorEdit3("Ball##ball", ball_colour);
 				ball.set_colour(new int[3] {
 					(int) (ball_colour[0] * 255.0f),
@@ -468,13 +470,13 @@ void load_config(
 		{
 			if (player_index == 1)
 			{
-				std::cout << "Player 1 loaded" << std::endl;
 				load_config_player(file_stream, player_one, player_index++);
 			}
 			else {
-				std::cout << "Player 2 loaded" << std::endl;
 				load_config_player(file_stream, player_two, player_index++);
 			}
+
+			std::cout << "Player " << player_index - 1 << " loaded" << std::endl;
 		}
 		else if (current_token == "BALL")
 		{
@@ -593,7 +595,7 @@ void load_config_game(std::ifstream& file_stream, Game& game)
 
 void load_config_player(std::ifstream& file_stream, Player& player, int player_index)
 {
-	std::string name;
+	char name[25] = {};
 	int position_x;
 	int position_y;
 	int width;
@@ -605,6 +607,13 @@ void load_config_player(std::ifstream& file_stream, Player& player, int player_i
 
 	file_stream >> name >> position_x >> position_y >> width >> height >> speed
 		>> colour_red >> colour_green >> colour_blue;
+
+	std::cout << name << std::endl;
+	std::cout << position_x << ", " << position_y << std::endl;
+	std::cout << width << ", " << height << std::endl;
+	std::cout << speed << std::endl;
+	std::cout << colour_red << ", " << colour_green << ", " << colour_blue
+		<< std::endl;
 
 	if (player_index == 1)
 		player.set_player_type(PlayerType::ONE);

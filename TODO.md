@@ -54,6 +54,7 @@ A list of tasks related to the complete of this pong project.
 
 - [x] Display the score for each player
 - [x] Display message with winner name when game finishes
+    - [ ] Name should be displayed in the center of the screen
 - [x] Display message whilst the game is paused
 
 #### Audio
@@ -82,12 +83,12 @@ A list of tasks related to the complete of this pong project.
 - [x] Game
     - [x] Target score
     - [x] Is playing
-- [ ] Paddle
+- [x] Paddle
     - [x] Colour
     - [x] Height
-    - [ ] Position
+    - [x] Position
     - [x] Initial position
-    - [ ] Name
+    - [x] Name
     - [x] Speed
 - [x] Ball
     - [x] Colour
@@ -99,7 +100,7 @@ A list of tasks related to the complete of this pong project.
 
 - [ ] Create an Entity class
 - [ ] Store the players and ball in a collection
-- [ ] Modify the Player and Ball classes
+- [ ] Modify the Player and Ball classes to inherit from Entity class
 - [ ] Modify the draw and update methods
 - [ ] Create a function for drawing imgui components
 - [ ] Use a configuration file
@@ -126,6 +127,8 @@ A list of tasks related to the complete of this pong project.
 - [ ] Custom mouse cursor displays under top window bar
 - [ ] Custom mouse cursor displays under imgui window
 - [ ] Pause message is not displaying
+- [ ] Space key input should not be handled for the game whilst focused on imgui
+window
 
 ## Notes
 

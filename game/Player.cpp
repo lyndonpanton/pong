@@ -12,34 +12,42 @@ Player::Player()
 {
 }
 
-Player::Player(const Player& player)
+Player::Player(Player& player)
 	: m_player_type(player.get_player_type())
-	, m_name(player.get_name())
 	, m_position(player.get_position())
 	, m_dimension(player.get_dimension())
 	, m_colour(player.get_colour())
 	, m_speed(player.get_speed())
 {
+	for (int i = 0; i < strlen(player.get_name()); i++)
+	{
+		m_name[i] = player.get_name()[i];
 
+		if (i >= 25 - 1) break;
+	}
 }
 
 Player::Player(
 	PlayerType player_type,
-	std::string name,
+	char* name,
 	int* position,
 	int* dimension,
 	int* colours,
 	int speed
 )
 	: m_player_type(player_type)
-	, m_name(name)
 	, m_position(position)
 	, m_position_initial(m_position)
 	, m_dimension(dimension)
 	, m_colour(colours)
 	, m_speed(speed)
 {
+	for (int i = 0; i < strlen(name); i++)
+	{
+		m_name[i] = name[i];
 
+		if (i >= 25 - 1) break;
+	}
 }
 
 Player::~Player()
@@ -53,7 +61,7 @@ const PlayerType Player::get_player_type() const
 	return m_player_type;
 }
 
-std::string Player::get_name() const
+char* Player::get_name()
 {
 	return m_name;
 }
@@ -93,9 +101,14 @@ void Player::set_player_type(PlayerType player_type)
 	m_player_type = player_type;
 }
 
-void Player::set_name(std::string name)
+void Player::set_name(char* name)
 {
-	m_name = name;
+	for (int i = 0; i < strlen(name); i++)
+	{
+		m_name[i] = name[i];
+
+		if (i >= 25 - 1) break;
+	}
 }
 
 void Player::set_position(int* position)
@@ -154,7 +167,7 @@ void Player::set_speed(int speed)
 }
 
 /* Other *********************************************************************/
-void move(bool is_moving_up)
+void Player::move(bool is_moving_up)
 {
 
 }
