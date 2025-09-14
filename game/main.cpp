@@ -186,6 +186,7 @@ int main(int argc, char* argv[])
 			if (ImGui::BeginTabItem("Game"))
 			{
 				ImGui::InputInt("Target Score", &game.m_target_score, 1);
+				ImGui::Checkbox("Is Paused", &game.m_is_paused);
 				ImGui::EndTabItem();
 			}
 			if (ImGui::BeginTabItem("Player"))
