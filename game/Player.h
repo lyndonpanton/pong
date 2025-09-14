@@ -17,7 +17,7 @@ public:
 	int* m_position;
 	int* m_position_initial;
 	int m_score = 0;
-	float m_speed;
+	int m_speed;
 
 	bool m_is_moving_up = false;
 	bool m_is_moving_down = false;
@@ -34,7 +34,7 @@ public:
 	int* get_position() const;
 	int* get_position_initial() const;
 	int get_score() const;
-	float get_speed() const;
+	int get_speed() const;
 
 	void set_colour(int*);
 	void set_colour(int, int, int);
@@ -47,7 +47,7 @@ public:
 	void set_position_initial(int*);
 	void set_position_initial(int, int);
 	void set_score(int);
-	void set_speed(float);
+	void set_speed(int);
 
 	void move(bool);
 	void reset();

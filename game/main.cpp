@@ -194,10 +194,22 @@ int main(int argc, char* argv[])
 			{
 				ImGui::Text("Player 1");
 				ImGui::SliderInt("Height", &player_one.m_dimension[1], 20, 200);
-
+				ImGui::SliderInt("Speed", &player_one.m_speed, 1, 20);
+				float* player_one_colour = new float[3] {
+					player_one.get_colour()[0] / 255.0f,
+					player_one.get_colour()[1] / 255.0f,
+					player_one.get_colour()[2] / 255.0f
+				};
+				ImGui::ColorEdit3("Colour", player_one_colour);
+				player_one.set_colour(new int[3] {
+					(int) (player_one_colour[0] * 255),
+					(int) (player_one_colour[1] * 255),
+					(int) (player_one_colour[2] * 255)
+				});
 
 				ImGui::Text("Player 2");
 				ImGui::SliderInt("Height", &player_two.m_dimension[1], 20, 200);
+				ImGui::SliderInt("Speed", &player_two.m_speed, 1, 20);
 
 				ImGui::EndTabItem();
 			}

@@ -82,7 +82,7 @@ int Player::get_score() const {
 	return m_score;
 }
 
-float Player::get_speed() const
+int Player::get_speed() const
 {
 	return m_speed;
 }
@@ -148,7 +148,7 @@ void Player::set_score(int score)
 	m_score = score;
 }
 
-void Player::set_speed(float speed)
+void Player::set_speed(int speed)
 {
 	m_speed = speed;
 }
