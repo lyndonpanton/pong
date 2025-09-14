@@ -226,6 +226,7 @@ int main(int argc, char* argv[])
 			}
 			if (ImGui::BeginTabItem("Ball"))
 			{
+				ImGui::SliderInt("Point count", &ball.m_point_count, 4, 32);
 				float* ball_colour = new float[3] {
 					ball.get_colour()[0] / 255.0f,
 					ball.get_colour()[1] / 255.0f,
