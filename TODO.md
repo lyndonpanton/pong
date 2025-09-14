@@ -91,7 +91,7 @@ A list of tasks related to the complete of this pong project.
     - [x] Speed
 - [ ] Ball
     - [x] Colour
-    - [ ] Point count
+    - [x] Point count
     - [ ] Radius
     - [ ] Velocity
         - [ ] Current velocity
