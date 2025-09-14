@@ -89,15 +89,11 @@ A list of tasks related to the complete of this pong project.
     - [ ] Initial position
     - [ ] Name
     - [x] Speed
-- [ ] Ball
+- [x] Ball
     - [x] Colour
     - [x] Point count
     - [x] Radius
-    - [ ] Velocity
-        - [ ] Current velocity
-        - [ ] Initial velocity
-    - [ ] Player can choose the match initial velocity changes with velocity
-    changes and vice versa
+    - [x] Velocity
 
 #### Maintenance
 
@@ -105,6 +101,7 @@ A list of tasks related to the complete of this pong project.
 - [ ] Store the players and ball in a collection
 - [ ] Modify the Player and Ball classes
 - [ ] Modify the draw and update methods
+- [ ] Create a function for drawing imgui components
 - [ ] Use a configuration file
     - [x] Window properties (size, title, resizable cursor path)
     - [x] Font properties (path, size, red value, green value, blue value)

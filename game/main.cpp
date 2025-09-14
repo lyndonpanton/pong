@@ -193,6 +193,12 @@ int main(int argc, char* argv[])
 			if (ImGui::BeginTabItem("Player"))
 			{
 				ImGui::Text("Player 1");
+				ImGui::SliderInt(
+					"Initial Y Position##player_one",
+					&player_one.m_position_initial[1],
+					0,
+					render_window.getSize().y - player_one.get_dimension()[1]
+				);
 				ImGui::SliderInt("Height##player_one", &player_one.m_dimension[1], 20, 200);
 				ImGui::SliderInt("Speed##player_one", &player_one.m_speed, 1, 20);
 				float* player_one_colour = new float[3] {
@@ -208,6 +214,12 @@ int main(int argc, char* argv[])
 				});
 
 				ImGui::Text("Player 2");
+				ImGui::SliderInt(
+					"Initial Y Position##player_two",
+					&player_two.m_position_initial[1],
+					0,
+					render_window.getSize().y - player_two.get_dimension()[1]
+				);
 				ImGui::SliderInt("Height##player_two", &player_two.m_dimension[1], 20, 200);
 				ImGui::SliderInt("Speed##player_two", &player_two.m_speed, 1, 20);
 				float* player_two_colour = new float[3] {
