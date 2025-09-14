@@ -83,10 +83,10 @@ A list of tasks related to the complete of this pong project.
     - [x] Target score
     - [x] Is playing
 - [ ] Paddle
-    - [ ] Colour
-    - [ ] Height
+    - [x] Colour
+    - [x] Height
     - [ ] Name
-    - [ ] Speed
+    - [x] Speed
 - [ ] Ball
     - [ ] Colour of a ball can be modified
     - [ ] Point count of a ball can be modified
