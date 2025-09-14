@@ -86,7 +86,7 @@ A list of tasks related to the complete of this pong project.
     - [x] Colour
     - [x] Height
     - [ ] Position
-    - [ ] Initial position
+    - [x] Initial position
     - [ ] Name
     - [x] Speed
 - [x] Ball

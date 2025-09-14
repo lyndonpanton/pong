@@ -199,6 +199,12 @@ int main(int argc, char* argv[])
 					0,
 					render_window.getSize().y - player_one.get_dimension()[1]
 				);
+				ImGui::SliderInt(
+					"Current Y Position#player_one",
+					&player_one.m_position[1],
+					0,
+					render_window.getSize().y - player_one.get_dimension()[1]
+				);
 				ImGui::SliderInt("Height##player_one", &player_one.m_dimension[1], 20, 200);
 				ImGui::SliderInt("Speed##player_one", &player_one.m_speed, 1, 20);
 				float* player_one_colour = new float[3] {
@@ -217,6 +223,12 @@ int main(int argc, char* argv[])
 				ImGui::SliderInt(
 					"Initial Y Position##player_two",
 					&player_two.m_position_initial[1],
+					0,
+					render_window.getSize().y - player_two.get_dimension()[1]
+				);
+				ImGui::SliderInt(
+					"Current Y Position#player_two",
+					&player_two.m_position[1],
 					0,
 					render_window.getSize().y - player_two.get_dimension()[1]
 				);
