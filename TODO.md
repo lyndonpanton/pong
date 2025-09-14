@@ -103,14 +103,14 @@ A list of tasks related to the complete of this pong project.
 - [ ] Store the players and ball in a collection
 - [ ] Modify the Player and Ball classes
 - [ ] Modify the draw and update methods
-- [ ] Use a configuration file
-    - [ ] Window properties (size, title, resizable cursor path)
-    - [ ] Font properties (path, size, red value, green value, blue value)
-    - [ ] Game properties
-    - [ ] Divider properties
-    - [ ] Ball properties
-    - [ ] Player one properties
-    - [ ] Player two properties
+- [x] Use a configuration file
+    - [x] Window properties (size, title, resizable cursor path)
+    - [x] Font properties (path, size, red value, green value, blue value)
+    - [x] Game properties
+    - [x] Divider properties
+    - [x] Ball properties
+    - [x] Player one properties
+    - [x] Player two properties
 
 ### Extended
 

@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
 					&& !game.get_is_complete()
 					&& !game.get_is_paused()
 					&& !ball.get_is_moving()
-				)
+					)
 				{
 					ball.set_is_moving(true);
 				}
@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
 				if (
 					event.key.code == sf::Keyboard::R
 					&& game.get_is_complete()
-				)
+					)
 				{
 					game.reset();
 					ball.reset();
@@ -178,6 +178,31 @@ int main(int argc, char* argv[])
 		cursor_sprite.setPosition(sf::Mouse::getPosition(render_window).x, sf::Mouse::getPosition(render_window).y);
 
 		ImGui::SFML::Update(render_window, delta_clock.restart());
+
+		ImGui::Begin("ImGui");
+
+		if (ImGui::BeginTabBar("Modifications"))
+		{
+			if (ImGui::BeginTabItem("Game"))
+			{
+				ImGui::InputInt("Target Score", &game.m_target_score, 1);
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Player"))
+			{
+
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Ball"))
+			{
+
+				ImGui::EndTabItem();
+			}
+
+			ImGui::EndTabBar();
+		}
+
+		ImGui::End();
 
 		render_window.clear(sf::Color(0, 0, 0));
 

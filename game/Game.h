@@ -9,6 +9,8 @@
 
 class Game
 {
+
+public:
 	int m_font_ui_size;
 	int m_font_win_screen_size;
 	bool m_is_paused = false;
@@ -17,7 +19,7 @@ class Game
 	int* m_pause_message_offset;
 	int m_target_score = 10;
 	PlayerType m_winner = PlayerType::NONE;
-public:
+
 	Game();
 	Game(const Game&);
 	Game(int, int, int, int*, std::string);
