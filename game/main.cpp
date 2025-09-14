@@ -187,10 +187,17 @@ int main(int argc, char* argv[])
 			{
 				ImGui::InputInt("Target Score", &game.m_target_score, 1);
 				ImGui::Checkbox("Is Paused", &game.m_is_paused);
+
 				ImGui::EndTabItem();
 			}
 			if (ImGui::BeginTabItem("Player"))
 			{
+				ImGui::Text("Player 1");
+				ImGui::SliderInt("Height", &player_one.m_dimension[1], 20, 200);
+
+
+				ImGui::Text("Player 2");
+				ImGui::SliderInt("Height", &player_two.m_dimension[1], 20, 200);
 
 				ImGui::EndTabItem();
 			}

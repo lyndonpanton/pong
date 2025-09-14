@@ -79,14 +79,14 @@ A list of tasks related to the complete of this pong project.
 
 #### Modifications
 
-- [ ] Game
-    - [ ] Target score
-    - [ ] Is playing
+- [x] Game
+    - [x] Target score
+    - [x] Is playing
 - [ ] Paddle
-    - [ ] Colour of a paddle can be modified
-    - [ ] Height of a paddle can be modified
-    - [ ] Name of a player can be modified
-    - [ ] Speed of a paddle can be modified
+    - [ ] Colour
+    - [ ] Height
+    - [ ] Name
+    - [ ] Speed
 - [ ] Ball
     - [ ] Colour of a ball can be modified
     - [ ] Point count of a ball can be modified
@@ -103,7 +103,7 @@ A list of tasks related to the complete of this pong project.
 - [ ] Store the players and ball in a collection
 - [ ] Modify the Player and Ball classes
 - [ ] Modify the draw and update methods
-- [x] Use a configuration file
+- [ ] Use a configuration file
     - [x] Window properties (size, title, resizable cursor path)
     - [x] Font properties (path, size, red value, green value, blue value)
     - [x] Game properties
@@ -111,6 +111,7 @@ A list of tasks related to the complete of this pong project.
     - [x] Ball properties
     - [x] Player one properties
     - [x] Player two properties
+    - [ ] Modification ranges
 
 ### Extended
 
